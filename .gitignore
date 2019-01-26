@@ -41,5 +41,5 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-**/Plugins/Editor
+**/Plugins
 .DS_Store

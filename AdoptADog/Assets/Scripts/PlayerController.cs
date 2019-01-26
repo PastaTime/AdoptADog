@@ -28,7 +28,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool Leaping { get; private set; }
+    private bool _leaping;
+    public bool Leaping
+    {
+        get => _leaping;
+        private set
+        {
+            _leaping = value;
+            _animator.SetBool(LeapingAnimationId, value);
+        }
+    }
 
     public Rigidbody2D Rigidbody { get; private set; }
     public Collider2D PhysicsCollider { get; private set; }
@@ -40,18 +49,19 @@ public class PlayerController : MonoBehaviour
     private readonly PlayerAction _roll = new PlayerAction()
     {
         ActionTime = 0.6f,
-        Cooldown = 1.5f,
+        Cooldown = 1f,
         SpeedMultiplier = 1.2f,
     };
 
     private readonly PlayerAction _leap = new PlayerAction()
     {
         ActionTime = 0.3f,
-        Cooldown = 1f,
+        Cooldown = 0.7f,
         SpeedMultiplier = 1.5f,
     };
 
     private static readonly int RollingAnimationId = Animator.StringToHash("Rolling");
+    private static readonly int LeapingAnimationId = Animator.StringToHash("Leaping");
     private static readonly int VelocityAnimationId = Animator.StringToHash("Velocity");
 
     public void SetCollisionHandled(PlayerController other)

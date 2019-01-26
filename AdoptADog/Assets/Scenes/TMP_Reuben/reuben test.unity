@@ -204,7 +204,7 @@ PrefabInstance:
     - target: {fileID: 5556045604722089710, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
       propertyPath: m_Name
-      value: Chicken
+      value: Player1
       objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089709, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
@@ -261,42 +261,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5556045604722089708, guid: cb8379de3858cc44ebf8e0ee6736013c,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9e4ee7276f7a02e469e376e9681e5505,
-        type: 3}
-    - target: {fileID: 5556045604722089708, guid: cb8379de3858cc44ebf8e0ee6736013c,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089711, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
       propertyPath: horizontalAxis
-      value: Horizontal2
+      value: Horizontal
       objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089711, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
       propertyPath: verticalAxis
-      value: Vertical2
+      value: Vertical
       objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089711, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
-      propertyPath: sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9e4ee7276f7a02e469e376e9681e5505,
-        type: 3}
+      propertyPath: rollKeyCode
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089711, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
-      propertyPath: acceleration
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5556045604722089707, guid: cb8379de3858cc44ebf8e0ee6736013c,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
+      propertyPath: leapKeyCode
+      value: 303
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb8379de3858cc44ebf8e0ee6736013c, type: 3}
@@ -307,20 +290,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089710, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
       propertyPath: m_Name
-      value: Bear
+      value: Player2
       objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089709, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.53
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089709, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5556045604722089709, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
@@ -371,7 +362,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c4f95bb067c9ab545bfd81c3cfecc052,
+      objectReference: {fileID: 21300000, guid: 22f7e2dfb9e33b14480bae442dc2a41d,
         type: 3}
     - target: {fileID: 5556045604722089708, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
@@ -392,21 +383,21 @@ PrefabInstance:
         type: 3}
       propertyPath: sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c4f95bb067c9ab545bfd81c3cfecc052,
+      objectReference: {fileID: 21300000, guid: 22f7e2dfb9e33b14480bae442dc2a41d,
         type: 3}
     - target: {fileID: 5556045604722089711, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
       propertyPath: acceleration
       value: 0.9
       objectReference: {fileID: 0}
-    - target: {fileID: 5556045604722089706, guid: cb8379de3858cc44ebf8e0ee6736013c,
+    - target: {fileID: 8970848273447296220, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
-      propertyPath: m_Material
-      value: 
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5556045604722089707, guid: cb8379de3858cc44ebf8e0ee6736013c,
+    - target: {fileID: 1843354067377215106, guid: cb8379de3858cc44ebf8e0ee6736013c,
         type: 3}
-      propertyPath: m_IsTrigger
+      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

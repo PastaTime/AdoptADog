@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private static readonly float leapMultiplier = 1.5f;
 
     private float _rollStartTime = -1;
+    private Animator _animator;
 
     public void SetCollisionHandled(PlayerController other)
     {
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
         PhysicsCollider = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = sprite;
+        _animator = GetComponent<Animator>();
     }
 
     private bool IsDoingAction()
@@ -86,6 +88,21 @@ public class PlayerController : MonoBehaviour
             Vector2 idealSpeed = movementDir * speed;
             Rigidbody.velocity = Vector2.Lerp(idealSpeed, Rigidbody.velocity, acceleration);
         }
+
+        if (Rigidbody.velocity.x == 0)
+        {
+            //  nothing
+        }
+        else if (Rigidbody.velocity.x > 0)
+        {
+            _spriteRenderer.flipX = true;
+        }
+        else
+        {
+            _spriteRenderer.flipX = false;
+        }
+
+        _animator.SetFloat("Velocity", Rigidbody.velocity.magnitude);
     }
 
     private void Roll()
@@ -150,7 +167,6 @@ public class PlayerController : MonoBehaviour
             CollisionUtils.HandlePlayerCollision(this, otherPlayer);
         }
     }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         var otherPlayer = other.gameObject.GetComponent<PlayerController>();

@@ -1,4 +1,4 @@
-#Adopt A Dog!
+# Adopt A Dog!
 
 Be the cutest dog in order to get adopted! Find your new home!
 

@@ -12,10 +12,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 10;
     public float acceleration = 0.8f;
 
-    public string horizontalAxis = "Horizontal";
-    public string verticalAxis = "Vertical";
-    public KeyCode rollKeyCode = KeyCode.F;
-    public KeyCode leapKeyCode = KeyCode.G;
+    public int playerNumber = 1;
 
     private bool _rolling;
     public bool Rolling
@@ -68,16 +65,16 @@ public class PlayerController : MonoBehaviour
     {
         _handledCollisions.Clear();
 
-        float moveHorizontal = Input.GetAxis(horizontalAxis);
-        float moveVertical = Input.GetAxis(verticalAxis);
+        float moveHorizontal = Controller.getSingleton().getHorizontal(playerNumber);
+        float moveVertical = Controller.getSingleton().getVertical(playerNumber);
 
         var movementDir = new Vector2(moveHorizontal, moveVertical).normalized;
 
-        if (Input.GetKeyDown(rollKeyCode))
+        if (Controller.getSingleton().getA(playerNumber))
         {
             Roll();
         }
-        if (Input.GetKeyDown(leapKeyCode))
+        if (Controller.getSingleton().getB(playerNumber))
         {
             Leap();
         }

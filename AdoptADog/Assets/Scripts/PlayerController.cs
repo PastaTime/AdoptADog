@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
+    private Animator _animator;
 
     private readonly List<GameObject> _handledCollisions = new List<GameObject>();
 
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = sprite;
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -42,6 +44,21 @@ public class PlayerController : MonoBehaviour
 
         Vector2 idealSpeed = movementDir * speed;
         _rigidbody.velocity = Vector2.Lerp(idealSpeed, _rigidbody.velocity, acceleration);
+
+        if (_rigidbody.velocity.x == 0)
+        {
+            //  nothing
+        }
+        else if (_rigidbody.velocity.x > 0)
+        {
+            _spriteRenderer.flipX = true;
+        }
+        else
+        {
+            _spriteRenderer.flipX = false;
+        }
+
+        _animator.SetFloat("Velocity", _rigidbody.velocity.magnitude);
 
     }
 

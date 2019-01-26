@@ -348,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  rotationSpeed: 100
+  rotationSpeed: 10
 --- !u!54 &2100445882
 Rigidbody:
   m_ObjectHideFlags: 0

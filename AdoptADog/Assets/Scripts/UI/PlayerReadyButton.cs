@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Text))]
+[RequireComponent(typeof(Image))]
 public class PlayerReadyButton : MonoBehaviour
 {
     public PlayerReadyManager manager;
@@ -9,16 +9,20 @@ public class PlayerReadyButton : MonoBehaviour
     public bool buttonSelected = false;
     
     public float pulseTime = 1f;
-    private float _currentTime = 0f;
     
+    public Sprite buttonUpImage;
+    public Sprite buttonDownImage;
+    public Sprite buttonSelectedImage;
+    
+    private float _currentTime = 0f;
     
     // Used for flashing the button.
     private bool _buttonFlashState = true;
-    private Text _buttonText;
+    private Image _button;
 
     void Start()
     {
-        _buttonText = GetComponent<Text>();
+        _button = GetComponent<Image>();
         manager = FindObjectOfType<PlayerReadyManager>();
         manager.Register(this);
     }
@@ -65,16 +69,16 @@ public class PlayerReadyButton : MonoBehaviour
 
         if (_buttonFlashState)
         {
-            _buttonText.text = "Press A";
+            _button.sprite = buttonUpImage;
         }
         else
         {
-            _buttonText.text = "-------";
+            _button.sprite = buttonDownImage;
         }
     }
 
     private void selectButton()
     {
-        _buttonText.text = "Selected.";
+        _button.sprite = buttonSelectedImage;
     }
 }

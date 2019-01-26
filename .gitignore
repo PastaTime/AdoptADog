@@ -5,9 +5,6 @@
 [Bb]uilds/
 Assets/AssetStoreTools*
 
-# Ignore Binary Assets
-Assets/bin*
-
 # Visual Studio cache directory
 .vs/
 

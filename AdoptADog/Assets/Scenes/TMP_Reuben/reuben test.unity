@@ -281,6 +281,11 @@ PrefabInstance:
       propertyPath: leapKeyCode
       value: 303
       objectReference: {fileID: 0}
+    - target: {fileID: 5383228291778738796, guid: cb8379de3858cc44ebf8e0ee6736013c,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f80fba4667edfa042a3a83fbdc29fbf5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb8379de3858cc44ebf8e0ee6736013c, type: 3}
 --- !u!1001 &5556045603465571494
@@ -400,5 +405,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5383228291778738796, guid: cb8379de3858cc44ebf8e0ee6736013c,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 231585a100c3a1347a58e892c8d5f36e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb8379de3858cc44ebf8e0ee6736013c, type: 3}

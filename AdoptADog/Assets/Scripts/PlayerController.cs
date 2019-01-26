@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10;
     public float acceleration = 0.8f;
-    public Sprite sprite;
 
     public string horizontalAxis = "Horizontal";
     public string verticalAxis = "Vertical";
@@ -56,7 +56,6 @@ public class PlayerController : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody2D>();
         PhysicsCollider = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _spriteRenderer.sprite = sprite;
         _animator = GetComponent<Animator>();
     }
 

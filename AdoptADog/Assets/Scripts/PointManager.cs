@@ -29,7 +29,7 @@ public class PointManager
         _score.Add(player, 0);
     }
 
-    public void PushPoints(int player) {
+    public void AddPushPoints(int player) {
         if (_score[player] <= PushPoints) {
             //set score to 0
         } else {
@@ -38,7 +38,7 @@ public class PointManager
         }
     }
 
-    public void PosePoints(int player) {
+    public void AddPosePoints(int player) {
         if (_score[player] + PosePoints >= WinningPoints) {
             EndGame();
         } else {

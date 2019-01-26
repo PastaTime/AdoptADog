@@ -2,98 +2,156 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class controller : MonoBehaviour
+public class Controller
 {
-    public float speed = 5.0F;
-    public float rotationSpeed = 10.0F;
-    // Update is called once per frame
-    void Update()
-    {
-        float test = Input.GetAxis("Vertical");
-        float testHorizontal = Input.GetAxis("Horizontal");
-        float translationY = Input.GetAxis("Vertical") * speed;
-        //Debug.Log("translation " + Input.GetAxis("Vertical"));
-        float translateX = Input.GetAxis("Horizontal") * rotationSpeed;
-        translationY *= Time.deltaTime;
-        translateX *= Time.deltaTime;
-        transform.Translate(0, 0, translationY);
-        transform.Translate(translateX, 0, 0);
+    private static Controller control = null;
 
-        if (Input.GetKey(KeyCode.JoystickButton0))
-        {
-            Debug.Log("A"); // A
+    private Controller() {}
+
+    public static Controller getSingleton() {
+        if (control == null) {
+            control = new Controller();
         }
-        if (Input.GetKey(KeyCode.JoystickButton1))
+        return control;
+    }
+
+    public float getHorizontal(int player) {
+        switch(player)
         {
-            Debug.Log("B"); // B
+            case 1:
+                return Input.GetAxis("Joystick1Horizontal");
+            case 2:
+                return Input.GetAxis("Joystick2Horizontal");
+            case 3:
+                return Input.GetAxis("Joystick3Horizontal");
+            case 4:
+                return Input.GetAxis("Joystick4Horizontal");
+          
         }
-        if (Input.GetKey(KeyCode.JoystickButton2))
+        return 0.0f;
+    }
+
+    public float getVertical(int player) {
+        switch(player)
         {
-            Debug.Log("C");
+            case 1:
+                return Input.GetAxis("Joystick1Vertical");
+            case 2:
+                return Input.GetAxis("Joystick2Vertical");
+            case 3:
+                return Input.GetAxis("Joystick3Vertical");
+            case 4:
+                return Input.GetAxis("Joystick4Vertical");           
         }
-        if (Input.GetKey(KeyCode.JoystickButton3))
+        return 0.0f;
+    }
+
+    public bool getA(int player)
+    {
+        switch(player)
         {
-            Debug.Log("D");
+            case 1:
+                if (Input.GetKey(KeyCode.Joystick1Button0)) {
+                    return true;
+                }
+                break;
+            case 2:
+                if (Input.GetKey(KeyCode.Joystick2Button0)) {
+                    return true;
+                }
+                break;
+            case 3:
+                if (Input.GetKey(KeyCode.Joystick3Button0)) {
+                    return true;
+                }
+                break;
+            case 4:
+                if (Input.GetKey(KeyCode.Joystick4Button0)) {
+                    return true;
+                }
+                break;               
         }
-        if (Input.GetKey(KeyCode.JoystickButton4))
+        return false;
+    }
+
+    public bool getB(int player) {
+        switch(player)
         {
-            Debug.Log("E");
+            case 1:
+                if (Input.GetKey(KeyCode.Joystick1Button1)) {
+                    return true;
+                }
+                break;
+            case 2:
+                if (Input.GetKey(KeyCode.Joystick2Button1)) {
+                    return true;
+                }
+                break;
+            case 3:
+                if (Input.GetKey(KeyCode.Joystick3Button1)) {
+                    return true;
+                }
+                break;
+            case 4:
+                if (Input.GetKey(KeyCode.Joystick4Button1)) {
+                    return true;
+                }
+                break;               
         }
-        if (Input.GetKey(KeyCode.JoystickButton5))
+        return false;
+    }
+
+    public bool getX(int player) {
+        switch(player)
         {
-            Debug.Log("F");
+            case 1:
+                if (Input.GetKey(KeyCode.Joystick1Button2)) {
+                    return true;
+                }
+                break;
+            case 2:
+                if (Input.GetKey(KeyCode.Joystick2Button2)) {
+                    return true;
+                }
+                break;
+            case 3:
+                if (Input.GetKey(KeyCode.Joystick3Button2)) {
+                    return true;
+                }
+                break;
+            case 4:
+                if (Input.GetKey(KeyCode.Joystick4Button2)) {
+                    return true;
+                }
+                break;               
         }
-        if (Input.GetKey(KeyCode.JoystickButton6))
+        return false;
+    }
+
+    public bool getY(int player) {
+        switch(player)
         {
-            Debug.Log("G");
+            case 1:
+                if (Input.GetKey(KeyCode.Joystick1Button3)) {
+                    return true;
+                }
+                break;
+            case 2:
+                if (Input.GetKey(KeyCode.Joystick2Button3)) {
+                    return true;
+                }
+                break;
+            case 3:
+                if (Input.GetKey(KeyCode.Joystick3Button3)) {
+                    return true;
+                }
+                break;
+            case 4:
+                if (Input.GetKey(KeyCode.Joystick4Button3)) {
+                    return true;
+                }
+                break;               
         }
-        if (Input.GetKey(KeyCode.JoystickButton7))
-        {
-            Debug.Log("H");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton8))
-        {
-            Debug.Log("I");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton9))
-        {
-            Debug.Log("J");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton10))
-        {
-            Debug.Log("K");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton11))
-        {
-            Debug.Log("L");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton12))
-        {
-            Debug.Log("M");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton13))
-        {
-            Debug.Log("N");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton14))
-        {
-            Debug.Log("O");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton15))
-        {
-            Debug.Log("P");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton16))
-        {
-            Debug.Log("Q");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton17))
-        {
-            Debug.Log("R");
-        }
-        if (Input.GetKey(KeyCode.JoystickButton18))
-        {
-            Debug.Log("S");
-        }
+        return false;
     }
 }

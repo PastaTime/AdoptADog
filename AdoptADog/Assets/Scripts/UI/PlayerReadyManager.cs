@@ -36,8 +36,8 @@ public class PlayerReadyManager : MonoBehaviour
 
     private void StartGame()
     {
+        // Transition to next scene
         Debug.Log("start game!");
-        Console.WriteLine("START GAME!");
     }
     
 }

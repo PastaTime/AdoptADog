@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
         private set
         {
             _spriteRenderer.flipY = value;
-            PhysicsCollider.enabled = !value;
+            gameObject.layer = value ? LayerMask.NameToLayer("Dodge") : LayerMask.NameToLayer("Dog");
             _rolling = value;
             _animator.SetBool(RollingAnimationId, value);
         }
@@ -80,11 +80,7 @@ public class PlayerController : MonoBehaviour
     private bool CanDoAction(PlayerAction action = null)
     {
         if (Rolling || Leaping) return false;
-
         if (action == null) return true;
-
-        Debug.Log("Finished " + action.TimeFinished);
-        Debug.Log("Time " + Time.time);
         return Time.time > action.TimeFinished + action.Cooldown;
     }
 

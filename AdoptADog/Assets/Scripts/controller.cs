@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class controller : MonoBehaviour
 {
-    public float speed = 10.0F;
+    public float speed = 5.0F;
     public float rotationSpeed = 10.0F;
     // Update is called once per frame
     void Update()
     {
         float test = Input.GetAxis("Vertical");
         float testHorizontal = Input.GetAxis("Horizontal");
-        Debug.Log("v " + test + "h " + testHorizontal);
         float translationY = Input.GetAxis("Vertical") * speed;
         //Debug.Log("translation " + Input.GetAxis("Vertical"));
         float translateX = Input.GetAxis("Horizontal") * rotationSpeed;
@@ -20,56 +19,80 @@ public class controller : MonoBehaviour
         transform.Translate(0, 0, translationY);
         transform.Translate(translateX, 0, 0);
 
-        if(Input.GetKeyDown(KeyCode.Joystick1Button0)) {
-            Debug.Log("A");
+        if (Input.GetKey(KeyCode.JoystickButton0))
+        {
+            Debug.Log("A"); // A
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button1)) {
-            Debug.Log("B");
+        if (Input.GetKey(KeyCode.JoystickButton1))
+        {
+            Debug.Log("B"); // B
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button2)) {
+        if (Input.GetKey(KeyCode.JoystickButton2))
+        {
             Debug.Log("C");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button3)) {
+        if (Input.GetKey(KeyCode.JoystickButton3))
+        {
             Debug.Log("D");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button4)) {
+        if (Input.GetKey(KeyCode.JoystickButton4))
+        {
             Debug.Log("E");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button5)) {
+        if (Input.GetKey(KeyCode.JoystickButton5))
+        {
             Debug.Log("F");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button6)) {
+        if (Input.GetKey(KeyCode.JoystickButton6))
+        {
             Debug.Log("G");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button7)) {
+        if (Input.GetKey(KeyCode.JoystickButton7))
+        {
             Debug.Log("H");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button8)) {
+        if (Input.GetKey(KeyCode.JoystickButton8))
+        {
             Debug.Log("I");
         }
-        if(Input.GetKeyDown(KeyCode.Joystick1Button9)) {
+        if (Input.GetKey(KeyCode.JoystickButton9))
+        {
             Debug.Log("J");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button10)) {
+        if (Input.GetKey(KeyCode.JoystickButton10))
+        {
             Debug.Log("K");
-        }        if(Input.GetKeyDown(KeyCode.Joystick1Button11)) {
+        }
+        if (Input.GetKey(KeyCode.JoystickButton11))
+        {
             Debug.Log("L");
-        }        if(Input.GetKeyDown(KeyCode.Joystick1Button12)) {
+        }
+        if (Input.GetKey(KeyCode.JoystickButton12))
+        {
             Debug.Log("M");
-        }        if(Input.GetKeyDown(KeyCode.Joystick1Button13)) {
+        }
+        if (Input.GetKey(KeyCode.JoystickButton13))
+        {
             Debug.Log("N");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button14)) {
+        if (Input.GetKey(KeyCode.JoystickButton14))
+        {
             Debug.Log("O");
-        }        if(Input.GetKeyDown(KeyCode.Joystick1Button15)) {
+        }
+        if (Input.GetKey(KeyCode.JoystickButton15))
+        {
             Debug.Log("P");
-        }        if(Input.GetKeyDown(KeyCode.Joystick1Button16)) {
+        }
+        if (Input.GetKey(KeyCode.JoystickButton16))
+        {
             Debug.Log("Q");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button17)) {
+        if (Input.GetKey(KeyCode.JoystickButton17))
+        {
             Debug.Log("R");
         }
-                if(Input.GetKeyDown(KeyCode.Joystick1Button18)) {
+        if (Input.GetKey(KeyCode.JoystickButton18))
+        {
             Debug.Log("S");
         }
     }

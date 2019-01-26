@@ -20,8 +20,57 @@ public class controller : MonoBehaviour
         transform.Translate(0, 0, translationY);
         transform.Translate(translateX, 0, 0);
 
-        if(Input.GetButton("FireA")) {
-            Debug.Log("fire A");
+        if(Input.GetButton("KeyCode.Joystick1Button0")) {
+            Debug.Log("A");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button1")) {
+            Debug.Log("B");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button2")) {
+            Debug.Log("C");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button3")) {
+            Debug.Log("D");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button4")) {
+            Debug.Log("E");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button5")) {
+            Debug.Log("F");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button6")) {
+            Debug.Log("G");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button7")) {
+            Debug.Log("H");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button8")) {
+            Debug.Log("I");
+        }
+        if(Input.GetButton("KeyCode.Joystick1Button9")) {
+            Debug.Log("J");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button10")) {
+            Debug.Log("K");
+        }        if(Input.GetButton("KeyCode.Joystick1Button11")) {
+            Debug.Log("L");
+        }        if(Input.GetButton("KeyCode.Joystick1Button12")) {
+            Debug.Log("M");
+        }        if(Input.GetButton("KeyCode.Joystick1Button13")) {
+            Debug.Log("N");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button14")) {
+            Debug.Log("O");
+        }        if(Input.GetButton("KeyCode.Joystick1Button15")) {
+            Debug.Log("P");
+        }        if(Input.GetButton("KeyCode.Joystick1Button16")) {
+            Debug.Log("Q");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button17")) {
+            Debug.Log("R");
+        }
+                if(Input.GetButton("KeyCode.Joystick1Button18")) {
+            Debug.Log("S");
         }
     }
 }

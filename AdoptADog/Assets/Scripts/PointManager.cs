@@ -18,10 +18,10 @@ public class PointManager
     }
 
     public static PointManager getSingleton() {
-        if (pointManager == null) {
-            pointManager = new PointManager();
+        if (_pointManager == null) {
+            _pointManager = new PointManager();
         }
-        return pointManager;
+        return _pointManager;
     }
 
     public void Register(int player, Object score) {

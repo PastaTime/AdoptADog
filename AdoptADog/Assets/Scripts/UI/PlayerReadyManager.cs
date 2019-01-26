@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStartManager : MonoBehaviour
+public class PlayerReadyManager : MonoBehaviour
 {
-    public List<PlayerStartButton> buttonList = new List<PlayerStartButton>();
+    public List<PlayerReadyButton> buttonList = new List<PlayerReadyButton>();
 
     void Update()
     {
@@ -15,14 +15,14 @@ public class PlayerStartManager : MonoBehaviour
         
     }
 
-    public void Register(PlayerStartButton button)
+    public void Register(PlayerReadyButton button)
     {
         buttonList.Add(button);
     }
 
     private bool AllPlayersReady()
     {
-        foreach (PlayerStartButton button in buttonList)
+        foreach (PlayerReadyButton button in buttonList)
         {
             if (!button.PlayerReady())
             {

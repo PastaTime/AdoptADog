@@ -2,9 +2,9 @@
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
-public class PlayerStartButton : MonoBehaviour
+public class PlayerReadyButton : MonoBehaviour
 {
-    public PlayerStartManager manager;
+    public PlayerReadyManager manager;
     public KeyCode buttonKey = KeyCode.A;
     public bool buttonSelected = false;
     
@@ -19,7 +19,7 @@ public class PlayerStartButton : MonoBehaviour
     void Start()
     {
         _buttonText = GetComponent<Text>();
-        manager = FindObjectOfType<PlayerStartManager>();
+        manager = FindObjectOfType<PlayerReadyManager>();
         manager.Register(this);
     }
     

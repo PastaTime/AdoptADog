@@ -20,12 +20,12 @@ public class SpotlightScript : MonoBehaviour
         //don't know if any scaling is required
         _playField = GameObject.Find("Grid").GetComponent<RectTransform>();
         maxX = _playField.position.x + _playField.rect.width - 0.5f - radius;
-        maxY = _playField.position.y + _playField.rect.length - 0.5f - radius;
+        maxY = _playField.position.y + _playField.rect.height - 0.5f - radius;
         minX = _playField.position.x + 0.5f + radius;
         minY = _playField.position.y + 0.5f + radius;
 
         Vector2 min = new Vector2(minX, minY);
-        
+
         
     }
 

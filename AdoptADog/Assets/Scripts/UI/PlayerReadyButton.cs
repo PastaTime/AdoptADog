@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
 public class PlayerReadyButton : MonoBehaviour
 {
-    public PlayerReadyManager manager;
+    public AudioManager audioManager;
+    public PlayerReadyManager playerManager;
     public KeyCode buttonKey = KeyCode.A;
     public bool buttonSelected = false;
     
@@ -23,8 +25,8 @@ public class PlayerReadyButton : MonoBehaviour
     void Start()
     {
         _button = GetComponent<Image>();
-        manager = FindObjectOfType<PlayerReadyManager>();
-        manager.Register(this);
+        playerManager = FindObjectOfType<PlayerReadyManager>();
+        playerManager.Register(this);
     }
     
 
@@ -80,5 +82,6 @@ public class PlayerReadyButton : MonoBehaviour
     private void selectButton()
     {
         _button.sprite = buttonSelectedImage;
+        audioManager.PlayAudio(audioManager.playerReady);
     }
 }

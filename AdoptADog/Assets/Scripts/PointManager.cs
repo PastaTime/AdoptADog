@@ -10,7 +10,7 @@ public class PointManager
 
     public int PushPoints = 10;
     public int PosePoints = 15;
-    public int WinningPoints = 50;
+    public int WinningPoints = 100;
 
     private PointManager() {
         _registeredPlayers = new Dictionary<int, PlayerScoreBar>();

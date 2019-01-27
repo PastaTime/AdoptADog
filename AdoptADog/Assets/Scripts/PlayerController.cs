@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _dog = GetComponent<Dog>();
+        _dog.PlayerNumber = playerNumber;
     }
 
     private Vector2 GetMovementDir()
@@ -30,12 +31,15 @@ public class PlayerController : MonoBehaviour
 
         if (Controller.getSingleton().getA(playerNumber))
         {
-            Debug.Log("Roll");
             _dog.Roll();
         }
         if (Controller.getSingleton().getB(playerNumber))
         {
             _dog.Leap();
+        }
+        if (Controller.getSingleton().getY(playerNumber))
+        {
+            _dog.Pose();
         }
     }
 

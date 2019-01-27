@@ -13,6 +13,7 @@ public class Dog : MonoBehaviour
     
     public float Speed { get; set; } = 7;
     private const float acceleration = 0.9f;
+    public int PlayerNumber { get; set; } = -1;
 
     private bool _rolling;
     public bool Rolling
@@ -54,6 +55,7 @@ public class Dog : MonoBehaviour
     public Collider2D PhysicsCollider { get; private set; }
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
+    private SpotlightScript _spotlight;
 
     private readonly List<GameObject> _handledCollisions = new List<GameObject>();
 
@@ -71,6 +73,13 @@ public class Dog : MonoBehaviour
         SpeedMultiplier = 1.5f,
     };
 
+    private readonly DogAction _pose = new DogAction()
+    {
+        ActionTime = 1f,
+        Cooldown = 0.7f,
+        SpeedMultiplier = 0f,
+    };
+
     private static readonly int RollingAnimationId = Animator.StringToHash("Rolling");
     private static readonly int LeapingAnimationId = Animator.StringToHash("Leaping");
     private static readonly int PosingAnimationId = Animator.StringToHash("Posing");
@@ -84,6 +93,7 @@ public class Dog : MonoBehaviour
         PhysicsCollider = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
+        _spotlight = FindObjectOfType<SpotlightScript>();
         manager = FindObjectOfType<AudioManager>();
     }
 
@@ -138,6 +148,29 @@ public class Dog : MonoBehaviour
         StartCoroutine(LeapRoutine());
     }
 
+    public void Pose()
+    {
+        if (!CanDoAction(_pose)) return;
+        Posing = true;
+
+        Rigidbody.velocity = Vector2.zero;
+
+        StartCoroutine(PoseRoutine());
+
+        if (_spotlight.InSpotlight(name))
+        {
+            PointManager.GetSingleton().AddPosePoints(PlayerNumber);
+            Debug.Log("Add pose " + name);
+        }
+    }
+
+    public void PushSomeone()
+    {
+        if (PlayerNumber < 0 || !_spotlight.InSpotlight(name)) return;
+        PointManager.GetSingleton().AddPushPoints(PlayerNumber);
+        Debug.Log("Add push " + name);
+    }
+
     private IEnumerator RollRoutine()
     {
         _roll.TimeStarted = Time.time;
@@ -153,9 +186,16 @@ public class Dog : MonoBehaviour
         _leap.TimeFinished = Time.time;
     }
 
+    private IEnumerator PoseRoutine()
+    {
+        yield return new WaitForSeconds(_pose.ActionTime);
+        Posing = false;
+        _pose.TimeFinished = Time.time;
+    }
+
     private bool CanDoAction(DogAction action = null)
     {
-        if (Rolling || Leaping) return false;
+        if (Rolling || Leaping || Posing) return false;
         if (action == null) return true;
         return Time.time > action.TimeFinished + action.Cooldown;
     }

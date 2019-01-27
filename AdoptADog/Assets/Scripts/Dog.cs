@@ -9,6 +9,8 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Dog : MonoBehaviour
 {
+    public AudioManager manager;
+    
     public float Speed { get; set; } = 7;
     private const float acceleration = 0.9f;
 
@@ -82,6 +84,7 @@ public class Dog : MonoBehaviour
         PhysicsCollider = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
+        manager = FindObjectOfType<AudioManager>();
     }
 
     private void Update()
@@ -107,6 +110,7 @@ public class Dog : MonoBehaviour
 
     public void SetCollisionHandled(Dog other)
     {
+        manager.PlayAudio(manager.playerContact);
         _handledCollisions.Add(other.gameObject);
     }
 
@@ -116,6 +120,8 @@ public class Dog : MonoBehaviour
         Rolling = true;
 
         Rigidbody.velocity = MovementDir * Speed * _roll.SpeedMultiplier;
+        
+        manager.PlayAudio(manager.playerRoll);
 
         StartCoroutine(RollRoutine());
     }
@@ -126,6 +132,8 @@ public class Dog : MonoBehaviour
         Leaping = true;
 
         Rigidbody.velocity = Rigidbody.velocity.normalized * Speed * _leap.SpeedMultiplier;
+        
+        manager.PlayAudio(manager.playerLeap);
 
         StartCoroutine(LeapRoutine());
     }

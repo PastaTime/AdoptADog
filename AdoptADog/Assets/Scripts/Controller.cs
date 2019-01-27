@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Controller
 {
+    public bool enabled { get; set; }
     private static Controller control = null;
 
-    private Controller() {}
+    private Controller()
+    {
+        enabled = true;
+    }
 
     public static Controller getSingleton() {
         if (control == null) {
@@ -15,7 +19,10 @@ public class Controller
         return control;
     }
 
-    public float getHorizontal(int player) {
+    public float getHorizontal(int player)
+    {
+        if (!enabled) return 0f;
+        
         switch(player)
         {
             case 1:
@@ -32,6 +39,8 @@ public class Controller
     }
 
     public float getVertical(int player) {
+        if (!enabled) return 0f;
+        
         switch(player)
         {
             case 1:
@@ -48,6 +57,8 @@ public class Controller
 
     public bool getA(int player)
     {
+        if (!enabled) return false;
+        
         switch(player)
         {
             case 1:
@@ -75,6 +86,8 @@ public class Controller
     }
 
     public bool getB(int player) {
+        if (!enabled) return false;
+        
         switch(player)
         {
             case 1:
@@ -102,6 +115,8 @@ public class Controller
     }
 
     public bool getX(int player) {
+        if (!enabled) return false;
+        
         switch(player)
         {
             case 1:
@@ -129,6 +144,8 @@ public class Controller
     }
 
     public bool getY(int player) {
+        if (!enabled) return false;
+        
         switch(player)
         {
             case 1:

@@ -1,10 +1,12 @@
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 ﻿using DefaultNamespace;
-using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
 public class PlayerReadyButton : MonoBehaviour
 {
+    public AudioManager audioManager;
     public bool buttonSelected = false;
     public Dog dog;
     
@@ -79,5 +81,6 @@ public class PlayerReadyButton : MonoBehaviour
     private void selectButton()
     {
         _button.sprite = buttonSelectedImage;
+        audioManager.PlayAudio(audioManager.playerReady);
     }
 }

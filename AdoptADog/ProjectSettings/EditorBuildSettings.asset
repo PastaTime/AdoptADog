@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/TMP_Reuben/StartMenu.unity
+    guid: 63844a576eb14884ba16b901865e49ef
+  - enabled: 1
+    path: Assets/Scenes/TMP_Reuben/reuben test.unity
+    guid: 412ffa1b325f97c4bbf36df39979725f
+  - enabled: 1
+    path: Assets/Scenes/TMP_Reuben/Map.unity
+    guid: 490509eae031ff048bd6d3b5de9c0a13
   m_configObjects: {}

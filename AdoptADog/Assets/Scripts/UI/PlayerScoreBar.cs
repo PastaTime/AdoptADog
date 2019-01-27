@@ -10,13 +10,14 @@ public class PlayerScoreBar : MonoBehaviour
     
     public Color fillColor = Color.red;
     
-    public float maxPoints = 100f;
+    private float _maxPoints;
     public float minXPosition = -6f;
     public float maxXPosition = 6f;
 
     public Transform bar;
 
     private PointManager _manager = PointManager.GetSingleton();
+    private AudioManager _audioManager;
     
     private float _currentPoints;
     
@@ -24,6 +25,8 @@ public class PlayerScoreBar : MonoBehaviour
     {
         UpdatePoints(10f);
         bar.GetComponent<SpriteRenderer>().color = fillColor;
+        _maxPoints = _manager.WinningPoints;
+        _audioManager = FindObjectOfType<AudioManager>();
         
         _manager.Register(playerNumber, this);
     }
@@ -31,7 +34,7 @@ public class PlayerScoreBar : MonoBehaviour
     public void UpdatePoints(float points)
     {
         _currentPoints = points;
-        var barFill = _currentPoints / maxPoints;
+        var barFill = _currentPoints / _maxPoints;
         Debug.Log(barFill);
         var scale = bar.localScale;
         scale.x = barFill * (maxXPosition - minXPosition);
@@ -43,5 +46,11 @@ public class PlayerScoreBar : MonoBehaviour
         Debug.Log(pos.x);
         bar.transform.localPosition = pos;
     }
+
+    public void PlayerWon()
+    {
+        _audioManager.PlayAudio(_audioManager.playerVictory);
+    }
+    
     
 }

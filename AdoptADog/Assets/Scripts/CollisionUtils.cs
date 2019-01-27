@@ -28,6 +28,8 @@ namespace DefaultNamespace
 
             int force = winnerDog.Leaping ? PushForce + 10 : PushForce;
             loserDog.Rigidbody.AddForce(dir * force, ForceMode2D.Impulse);
+
+            winnerDog.PushSomeone();
         }
     }
 }

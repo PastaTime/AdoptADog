@@ -10,7 +10,7 @@ public class PointManager
 
     public int PushPoints = 10;
     public int PosePoints = 15;
-    public int WinningPoints = 50;
+    public int WinningPoints = 100;
 
     private PointManager() {
         _registeredPlayers = new Dictionary<int, PlayerScoreBar>();
@@ -40,14 +40,14 @@ public class PointManager
 
     public void AddPosePoints(int player) {
         if (_score[player] + PosePoints >= WinningPoints) {
-            EndGame();
+            EndGame(player);
         } else {
             _score[player] += PosePoints;
             _registeredPlayers[player].UpdatePoints(_score[player]);
         }
     }
 
-    private void EndGame() {
-        //call new scene
+    private void EndGame(int player) {
+        // Generate Victory Message
     }
 }

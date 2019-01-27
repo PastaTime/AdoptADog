@@ -32,5 +32,18 @@ public class AudioManager : MonoBehaviour
     {
         source.PlayOneShot(clip);
     }
+
+    public void BackgroundMusic(bool play)
+    {
+        if (play)
+        {
+            backgroundSource.clip = gameMusic;
+            backgroundSource.Play();
+        }
+        else
+        {
+            backgroundSource.Stop();
+        }
+    }
     
 }

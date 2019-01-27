@@ -31,29 +31,62 @@ public class PlayerScoreBar : MonoBehaviour
     public int playerNumber = 1;
     
     public Color fillColor = Color.red;
+    public Color flashingColor = Color.white;
     
     private float _maxPoints;
     public float minXPosition = -6f;
     public float maxXPosition = 6f;
+    private float _flashTime = 0.25f;
 
     public Transform barFill;
     public Transform barFrame;
     public Transform dropInButton;
 
     private PointManager _manager = PointManager.GetSingleton();
-    private AudioManager _audioManager;
-    
+
     private float _currentPoints;
     private GameManager _gameManager;
     
     void Start()
     {
-        UpdatePoints(10f);
         barFill.GetComponent<SpriteRenderer>().color = fillColor;
         _maxPoints = _manager.WinningPoints;
-        _audioManager = FindObjectOfType<AudioManager>();
-        
+
         _manager.Register(playerNumber, this);
+        UpdatePoints(0.0f);
+
+    }
+
+    void Update() 
+    {
+        if (_maxPoints * .75 < _currentPoints) 
+        {
+            ToggleColor();
+        }
+        
+        Enable = _gameManager.GetActivePlayers().Contains(playerNumber);
+        
+        if (Controller.GetSingleton().GetBackDown(playerNumber))
+        {
+            Enable = false;
+            _gameManager.DespawnPlayer(playerNumber);
+        }
+    }
+
+    private void ToggleColor() 
+    {
+        _flashTime -= Time.deltaTime;
+        if (_flashTime < 0) 
+        {
+            if (barFill.GetComponent<SpriteRenderer>().color == fillColor) 
+            {
+                barFill.GetComponent<SpriteRenderer>().color = flashingColor;
+            } else 
+            {
+                barFill.GetComponent<SpriteRenderer>().color = fillColor;
+            }
+            _flashTime = 0.25f;
+        }
     }
 
     void Awake()
@@ -63,17 +96,6 @@ public class PlayerScoreBar : MonoBehaviour
         {
             Enable = _gameManager.GetActivePlayers().Contains(playerNumber);
             Debug.Log("Setting Player " + playerNumber + " Score Bar on:" + _enable);
-        }
-    }
-
-    private void Update()
-    {
-        Enable = _gameManager.GetActivePlayers().Contains(playerNumber);
-        
-        if (Controller.GetSingleton().GetBackDown(playerNumber))
-        {
-            Enable = false;
-            _gameManager.DespawnPlayer(playerNumber);
         }
     }
 
@@ -95,6 +117,5 @@ public class PlayerScoreBar : MonoBehaviour
 
     public void PlayerWon()
     {
-        _audioManager.PlayAudio(_audioManager.playerVictory);
     }
 }

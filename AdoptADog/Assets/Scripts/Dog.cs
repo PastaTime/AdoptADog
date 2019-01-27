@@ -73,8 +73,8 @@ public class Dog : MonoBehaviour
 
     private readonly DogAction _roll = new DogAction()
     {
-        ActionTime = 0.6f,
-        Cooldown = 1f,
+        ActionTime = 0.4f,
+        Cooldown = 0.7f,
         SpeedMultiplier = 1.2f,
     };
 
@@ -88,7 +88,7 @@ public class Dog : MonoBehaviour
     private readonly DogAction _pose = new DogAction()
     {
         ActionTime = 1f,
-        Cooldown = 0.9f,
+        Cooldown = 0.5f,
         SpeedMultiplier = 0f,
     };
 
@@ -180,7 +180,7 @@ public class Dog : MonoBehaviour
         if (!CanDoAction(_leap)) return;
         Leaping = true;
 
-        Rigidbody.velocity = Rigidbody.velocity.normalized * Speed * _leap.SpeedMultiplier;
+        Rigidbody.velocity = MovementDir * Speed * _leap.SpeedMultiplier;
         
         manager.PlayAudio(manager.playerLeap);
 

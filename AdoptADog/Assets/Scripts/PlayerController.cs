@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
         {
             _dog.Leap();
         }
-        if (Controller.GetSingleton().GetYDown(playerNumber))
+        if (Controller.GetSingleton().GetYHeld(playerNumber))
         {
             _dog.Pose(true);
         }

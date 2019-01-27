@@ -32,11 +32,13 @@ public class PointManager
     }
 
     public void Register(int player, PlayerScoreBar score) {
+        Debug.Log("Registering Player: " + player + "Score: " + score.ToString());
         _registeredPlayers.Add(player, score);
-        _score.Add(player, 0);
+        _score[player] = 0f;
     }
 
     public void AddPushPoints(int player) {
+        
         if (_score[player] <= PushPoints) {
             _registeredPlayers[player].UpdatePoints(0f);
         } else {
@@ -46,6 +48,9 @@ public class PointManager
     }
 
     public void AddPosePoints(int player, float dt) {
+        Debug.Log("Adding to: " + player);
+        Debug.Log("Length Score: " + _score.Count);
+        Debug.Log("Length Players: " + _registeredPlayers.Count);
         if (_score[player] + PosePoints * dt >= WinningPoints) {
             _registeredPlayers[player].UpdatePoints(WinningPoints);
             EndGame(player);

@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +11,6 @@ namespace DefaultNamespace
     public class GameManager : MonoBehaviour
     {
         public RuntimeAnimatorController[] animationControllers;
-        private int _count = -1;
         public GameObject playerPrefab;
 
         public List<PlayerReadyButton> buttonList = new List<PlayerReadyButton>();
@@ -16,6 +18,17 @@ namespace DefaultNamespace
         private bool _started = false;
 
         public PlayerReadyButton StartButton;
+
+        public string MapSceneName = "Map";
+        public string EndSceneName = "End";
+        public string ReadySceneName = "Ready";
+        public string StartSceneName = "Start";
+
+        private int _winningPlayer;
+
+        private string _sceneName;
+
+        public static GameManager Instance { get; private set; }
 
         private void AddPlayer(int index)
         {
@@ -25,62 +38,113 @@ namespace DefaultNamespace
 
         void Update()
         {
-            if (_started) return;
-
-            if (buttonList.Count(b => b.PlayerReady()) > 1)
+            if (_sceneName == ReadySceneName)
             {
-                StartButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                StartButton.gameObject.SetActive(false);
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (Controller.getSingleton().getX(i + 1) && buttonList.Count(b => b.PlayerReady()) > 1)
+                if (buttonList != null && buttonList.Count(b => b.PlayerReady()) > 1)
                 {
-                    StartGame();
+                    StartButton.gameObject.SetActive(true);
+                }
+                else
+                {
+                    StartButton.gameObject.SetActive(false);
                 }
 
-                if (_selectedControllers.Contains(i)) continue;
-
-                if (Controller.getSingleton().getA(i + 1))
+                for (int i = 0; i < 4; i++)
                 {
-                    AddPlayer(i);
+                    if (Controller.getSingleton().getX(i + 1) && buttonList.Count(b => b.PlayerReady()) > 1)
+                    {
+                        StartGame();
+                    }
+
+                    if (_selectedControllers.Contains(i)) continue;
+
+                    if (Controller.getSingleton().getA(i + 1))
+                    {
+                        AddPlayer(i);
+                    }
                 }
             }
 
+            if (_sceneName == StartSceneName)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Controller.getSingleton().getA(i + 1))
+                    {
+                        Ready();
+                    }
+
+                }
+            }
+        }
+
+
+        public void Ready()
+        {
+            SceneManager.LoadScene(ReadySceneName, LoadSceneMode.Single);
         }
 
         private void StartGame()
         {
             _started = true;
 
-            LoadScene(buttonList.Count(b => b.PlayerReady()));
+            SceneManager.LoadScene(MapSceneName, LoadSceneMode.Single);
+        }
+
+        public void FinishGame(int playerNum)
+        {
+            _winningPlayer = playerNum;
+            StartCoroutine(EndRoutine());
+        }
+
+        private IEnumerator EndRoutine()
+        {
+            yield return new WaitForSeconds(1);
+            SceneManager.LoadScene(EndSceneName, LoadSceneMode.Single);
         }
 
         private void Awake()
         {
             DontDestroyOnLoad(this);
-            SceneManager.sceneLoaded += (arg0, mode) =>
+            Instance = this;
+            _sceneName = StartSceneName;
+
+            SceneManager.sceneLoaded += (scene, mode) =>
             {
-                foreach (var index in _selectedControllers)
+                _sceneName = scene.name;
+                if (scene.name == MapSceneName)
+                {
+                    foreach (var index in _selectedControllers)
+                    {
+                        GameObject player = Instantiate(playerPrefab);
+                        player.name = "Player" + (index + 1);
+                        var playerController = player.GetComponent<PlayerController>();
+                        playerController.playerNumber = index + 1;
+                        var animator = player.GetComponent<Animator>();
+                        animator.runtimeAnimatorController = animationControllers[index];
+                    }
+                }
+
+                if (scene.name == EndSceneName)
                 {
                     GameObject player = Instantiate(playerPrefab);
-                    player.name = "Player" + (index + 1);
+                    player.name = "Player" + (_winningPlayer);
                     var playerController = player.GetComponent<PlayerController>();
-                    playerController.playerNumber = index + 1;
+                    playerController.playerNumber = _winningPlayer;
                     var animator = player.GetComponent<Animator>();
-                    animator.runtimeAnimatorController = animationControllers[index];
+                    animator.runtimeAnimatorController = animationControllers[_winningPlayer - 1];
                 }
-            };
-        }
 
-        public void LoadScene(int count)
-        {
-            SceneManager.LoadScene("Map", LoadSceneMode.Single);
-            _count = count;
+                if (scene.name == ReadySceneName)
+                {
+                    StartButton = FindObjectsOfType<PlayerReadyButton>().Single(b => b.name == "StartButton");
+                    buttonList.AddRange(FindObjectsOfType<PlayerReadyButton>()
+                        .Where(b => b.name.StartsWith("Player")));
+                    buttonList.Sort((a, b) => String.Compare(a.name, b.name, StringComparison.Ordinal));
+                    Debug.Log(buttonList.Count);
+                }
+
+            };
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class PointManager
@@ -40,6 +41,7 @@ public class PointManager
 
     public void AddPosePoints(int player) {
         if (_score[player] + PosePoints >= WinningPoints) {
+            _registeredPlayers[player].UpdatePoints(WinningPoints);
             EndGame(player);
         } else {
             _score[player] += PosePoints;
@@ -47,7 +49,10 @@ public class PointManager
         }
     }
 
-    private void EndGame(int player) {
-        // Generate Victory Message
+    private void EndGame(int player)
+    {
+        _registeredPlayers[player].PlayerWon();
+        Controller.getSingleton().enabled = false;
+        GameManager.Instance.FinishGame(player);
     }
 }

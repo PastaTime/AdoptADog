@@ -79,7 +79,7 @@ namespace DefaultNamespace
 
         public void LoadScene(int count)
         {
-            SceneManager.LoadScene("reuben test", LoadSceneMode.Single);
+            SceneManager.LoadScene("Map", LoadSceneMode.Single);
             _count = count;
         }
 

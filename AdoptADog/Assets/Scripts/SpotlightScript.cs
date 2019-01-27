@@ -37,7 +37,6 @@ public class SpotlightScript : MonoBehaviour
                 newPosition();
                 System.Random rnd = new System.Random();
                 freezeTime = (float)rnd.Next(0,25)/10;
-                Debug.Log("time " + freezeTime);
             } else {
                 freezeTime -= Time.deltaTime;
             }

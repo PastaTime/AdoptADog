@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TMP_Reuben/End.unity
     guid: be0b4a479008cda49972304c9cb39411
+  - enabled: 1
+    path: Assets/Scenes/Instructions.unity
+    guid: fe9e811a40bffa44cb4ea2f836d0f9cf
   m_configObjects: {}

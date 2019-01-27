@@ -94,7 +94,7 @@ public class Dog : MonoBehaviour
 
     private readonly DogAction _stun = new DogAction()
     {
-        ActionTime = 0.5f,
+        ActionTime = 0.8f,
         Cooldown = 0.0f,
         SpeedMultiplier = 0f,
     };

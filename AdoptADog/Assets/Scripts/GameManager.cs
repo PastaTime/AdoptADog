@@ -15,6 +15,8 @@ namespace DefaultNamespace
         private HashSet<int> _selectedControllers = new HashSet<int>();
         private bool _started = false;
 
+        public PlayerReadyButton StartButton;
+
         private void AddPlayer(int index)
         {
             _selectedControllers.Add(index);
@@ -25,8 +27,22 @@ namespace DefaultNamespace
         {
             if (_started) return;
 
+            if (buttonList.Count(b => b.PlayerReady()) > 1)
+            {
+                StartButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                StartButton.gameObject.SetActive(false);
+            }
+
             for (int i = 0; i < 4; i++)
             {
+                if (Controller.getSingleton().getX(i + 1) && buttonList.Count(b => b.PlayerReady()) > 1)
+                {
+                    StartGame();
+                }
+
                 if (_selectedControllers.Contains(i)) continue;
 
                 if (Controller.getSingleton().getA(i + 1))
@@ -35,25 +51,13 @@ namespace DefaultNamespace
                 }
             }
 
-            if (AllPlayersReady() && !_started)
-            {
-                StartGame();
-            }
-
         }
-
-        private bool AllPlayersReady()
-        {
-            return buttonList.Count(b => b.PlayerReady()) > 1;
-        }
-
 
         private void StartGame()
         {
             _started = true;
 
-            var gameManager = FindObjectOfType<GameManager>();
-            gameManager.LoadScene(buttonList.Count(b => b.PlayerReady()));
+            LoadScene(buttonList.Count(b => b.PlayerReady()));
         }
 
         private void Awake()

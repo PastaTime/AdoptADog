@@ -9,3 +9,9 @@ Be the cutest dog in order to get adopted! Find your new home!
 # Incoming Feature List
 
 - [ ] Add different coloued dogs
+
+# Special thanks to:
+
+Music:
+- Background music is "Glouglou" from [here](http://freemusicarchive.org/genre/Chiptune/)
+- Sound effects made on [BeepBox](https://www.beepbox.co/)

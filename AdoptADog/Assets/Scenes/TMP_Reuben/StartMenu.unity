@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 69348907}
   - component: {fileID: 69348906}
   m_Layer: 5
-  m_Name: GameObject (1)
+  m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -732,7 +732,7 @@ GameObject:
   - component: {fileID: 546029926}
   - component: {fileID: 546029925}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -794,6 +794,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546029923}
   m_CullTransparentMesh: 0
+--- !u!114 &627523176 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 113300953684097463, guid: 6b0f161afa5cf57448994a8c2cace911,
+    type: 3}
+  m_PrefabInstance: {fileID: 829454320}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32352cd9097906c488b3c2d9b68878e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &653070858 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 113300953684097463, guid: 6b0f161afa5cf57448994a8c2cace911,
@@ -1460,6 +1472,7 @@ MonoBehaviour:
   - {fileID: 1987107557}
   - {fileID: 1629893303}
   - {fileID: 1152227674}
+  StartButton: {fileID: 627523176}
 --- !u!4 &1225793839
 Transform:
   m_ObjectHideFlags: 0

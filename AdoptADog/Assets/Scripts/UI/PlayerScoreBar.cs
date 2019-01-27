@@ -9,10 +9,12 @@ public class PlayerScoreBar : MonoBehaviour
     public int playerNumber = 1;
     
     public Color fillColor = Color.red;
+    public Color flashingColor = Color.white;
     
     private float _maxPoints;
     public float minXPosition = -6f;
     public float maxXPosition = 6f;
+    private float _flashTime = 0.25f;
 
     public Transform bar;
 
@@ -22,11 +24,34 @@ public class PlayerScoreBar : MonoBehaviour
     
     void Start()
     {
-        UpdatePoints(10f);
         bar.GetComponent<SpriteRenderer>().color = fillColor;
         _maxPoints = _manager.WinningPoints;
 
         _manager.Register(playerNumber, this);
+        UpdatePoints(0.0f);
+
+    }
+
+    void Update() {
+        if (maxPoints * .75 < _currentPoints) 
+        {
+            ToggleColor();
+        }
+    }
+
+    private void ToggleColor() 
+    {
+        _flashTime -= Time.deltaTime;
+        if (_flashTime < 0) 
+        {
+            if (bar.GetComponent<SpriteRenderer>().color == fillColor) 
+            {
+                bar.GetComponent<SpriteRenderer>().color = flashingColor;
+            } else {
+                bar.GetComponent<SpriteRenderer>().color = fillColor;
+            }
+            _flashTime = 0.25f;
+        }
     }
 
     public void UpdatePoints(float points)

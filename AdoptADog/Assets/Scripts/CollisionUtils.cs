@@ -32,10 +32,8 @@ namespace DefaultNamespace
             winnerDog.PushSomeone();
             loserDog.Rigidbody.AddForce(dir * force, ForceMode2D.Impulse);
 
-            if (loserDog.Posing)
-            {
-                loserDog.Stun();
-            }
+            if (loserDog.Posing) loserDog.Stun();
+            if (winnerDog.Posing) winnerDog.Stun();
         }
     }
 }

@@ -17,14 +17,15 @@ public class SpotlightScript : MonoBehaviour
     private Vector3 nextPosition;
     private Vector3 currentPosition;
     private float distance = 0.01f;
+    private float freezeTime = 0.0f;
 
     void Start()
     {
         //don't know if any scaling is required
-        maxX = _playField.position.x + _playField.rect.width - 0.25f - radius;
-        maxY = _playField.position.y + _playField.rect.height - 0.25f - radius;
-        minX = _playField.position.x + 0.25f + radius;
-        minY = _playField.position.y + 0.25f + radius;
+        maxX = _playField.position.x + _playField.rect.width/2 - 0.25f - radius;
+        maxY = _playField.position.y + _playField.rect.height/2 - 0.25f - radius;
+        minX = _playField.position.x - _playField.rect.width/2 + 0.25f + radius;
+        minY = _playField.position.y - _playField.rect.height/2 + 0.25f + radius;
 
         newPosition();
     }
@@ -32,12 +33,18 @@ public class SpotlightScript : MonoBehaviour
     void Update()
     {
         if (transform.position.x == nextPosition.x && transform.position.y == nextPosition.y) {
-            newPosition();
+            if (freezeTime <= 0) {
+                newPosition();
+                System.Random rnd = new System.Random();
+                freezeTime = (float)rnd.Next(0,25)/10;
+                Debug.Log("time " + freezeTime);
+            } else {
+                freezeTime -= Time.deltaTime;
+            }
         } else {
             distance += 0.01f;
             transform.position = Vector3.Lerp(currentPosition, nextPosition, distance);
         }
-
     }
 
     private void newPosition() {

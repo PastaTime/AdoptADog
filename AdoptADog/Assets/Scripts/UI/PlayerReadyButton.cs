@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
+﻿using DefaultNamespace;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
 public class PlayerReadyButton : MonoBehaviour
 {
     public AudioManager audioManager;
-    public PlayerReadyManager playerManager;
-    public KeyCode buttonKey = KeyCode.A;
     public bool buttonSelected = false;
+    public Dog dog;
     
     public float pulseTime = 1f;
     
@@ -25,8 +25,6 @@ public class PlayerReadyButton : MonoBehaviour
     void Start()
     {
         _button = GetComponent<Image>();
-        playerManager = FindObjectOfType<PlayerReadyManager>();
-        playerManager.Register(this);
     }
     
 
@@ -37,12 +35,6 @@ public class PlayerReadyButton : MonoBehaviour
         {
             return;
         }
-        
-        if (Input.GetKeyDown(buttonKey))
-        {
-            buttonSelected = true;
-            selectButton();
-        }
         else
         {
             pulseButton();
@@ -52,6 +44,13 @@ public class PlayerReadyButton : MonoBehaviour
     public bool PlayerReady()
     {
         return buttonSelected;
+    }
+
+    public void SetReady()
+    {
+        buttonSelected = true;
+        dog.Posing = true;
+        selectButton();
     }
     
 

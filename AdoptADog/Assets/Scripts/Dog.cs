@@ -39,6 +39,17 @@ public class Dog : MonoBehaviour
         }
     }
 
+    private bool _posing;
+    public bool Posing
+    {
+        get => _posing;
+        set
+        {
+            _posing = value;
+            _animator.SetBool(PosingAnimationId, value);
+        }
+    }
+
     public Rigidbody2D Rigidbody { get; private set; }
     public Collider2D PhysicsCollider { get; private set; }
     private SpriteRenderer _spriteRenderer;
@@ -62,6 +73,7 @@ public class Dog : MonoBehaviour
 
     private static readonly int RollingAnimationId = Animator.StringToHash("Rolling");
     private static readonly int LeapingAnimationId = Animator.StringToHash("Leaping");
+    private static readonly int PosingAnimationId = Animator.StringToHash("Posing");
     private static readonly int VelocityAnimationId = Animator.StringToHash("Velocity");
 
     public Vector2 MovementDir { get; set; }

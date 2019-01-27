@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Controller.getSingleton().getY(playerNumber))
         {
-            _dog.Pose();
+            _dog.Pose(true);
         }
     }
 

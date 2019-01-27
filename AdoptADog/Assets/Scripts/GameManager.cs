@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using Random = System.Random;
 
 namespace DefaultNamespace
 {
@@ -35,6 +36,8 @@ namespace DefaultNamespace
         public static GameManager Instance { get; private set; }
         private AudioManager _audioManager;
 
+        private RectTransform _playerBounds;
+        private Random _rand = new Random();
 
         private void AddPlayer(int index)
         {
@@ -130,6 +133,20 @@ namespace DefaultNamespace
             LoadSceneByName(EndSceneName);
         }
 
+        private Vector2 NewPoint()
+        {
+            var position = _playerBounds.position;
+            var rect = _playerBounds.rect;
+            float maxX = position.x + rect.width/2 - 0.25f - 0.5f;
+            float maxY = position.y + rect.height/2 - 0.25f - 0.5f;
+            float minX = position.x - rect.width/2 + 0.25f + 0.5f;
+            float minY = position.y - rect.height/2 + 0.25f + 0.5f;
+
+            float randomX =  (float)_rand.Next((int)minX, (int)maxX);
+            float randomY = (float)_rand.Next((int)minY, (int)maxY);
+            return new Vector2(randomX, randomY);
+        }
+
         private void Awake()
         {
             DontDestroyOnLoad(this);
@@ -149,6 +166,7 @@ namespace DefaultNamespace
 
                 if (scene.name == MapSceneName)
                 {
+                    _playerBounds = GameObject.FindGameObjectWithTag("PlayerBounds").GetComponent<RectTransform>();
                     foreach (var index in _selectedControllers)
                     {
                         GameObject player = Instantiate(playerPrefab);
@@ -157,6 +175,7 @@ namespace DefaultNamespace
                         playerController.playerNumber = index + 1;
                         var animator = player.GetComponent<Animator>();
                         animator.runtimeAnimatorController = animationControllers[index];
+                        player.transform.localPosition = NewPoint();
                     }
                 }
 

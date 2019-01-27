@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip playerLeap;
     public AudioClip playerRoll;
     public AudioClip playerVictory;
+    public AudioClip playerPose;
 
     public AudioClip gameMusic;
 

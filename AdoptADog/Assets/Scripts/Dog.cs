@@ -46,6 +46,7 @@ public class Dog : MonoBehaviour
         get => _posing;
         set
         {
+            if (_posing == value) return;
             _posing = value;
             _animator.SetBool(PosingAnimationId, value);
         }
@@ -87,13 +88,13 @@ public class Dog : MonoBehaviour
     private readonly DogAction _pose = new DogAction()
     {
         ActionTime = 1f,
-        Cooldown = 0.7f,
+        Cooldown = 0.9f,
         SpeedMultiplier = 0f,
     };
 
     private readonly DogAction _stun = new DogAction()
     {
-        ActionTime = 1f,
+        ActionTime = 0.5f,
         Cooldown = 0.0f,
         SpeedMultiplier = 0f,
     };
@@ -120,8 +121,6 @@ public class Dog : MonoBehaviour
 
     private void Update()
     {
-        Posing = _doPose;
-
         if (Stunned)
         {
             Rigidbody.velocity = Vector2.Lerp(Vector2.zero, Rigidbody.velocity, acceleration);
@@ -144,6 +143,7 @@ public class Dog : MonoBehaviour
         }
 
         _animator.SetFloat(VelocityAnimationId, Rigidbody.velocity.magnitude);
+        Posing = _doPose;
         _doPose = false;
     }
 
@@ -187,12 +187,19 @@ public class Dog : MonoBehaviour
         StartCoroutine(LeapRoutine());
     }
 
-    public void Pose()
+    public void Pose(bool withSound = false)
     {
-        if (!CanDoAction(_pose)) return;
+        if (Rolling || Leaping || Stunned) return;
+        if (!Posing)
+        {
+            if (Time.time < _pose.TimeFinished + _pose.Cooldown) return;
+            manager.PlayAudio(manager.playerPose);
+        }
+
         _doPose = true;
 
         Rigidbody.velocity = Vector2.zero;
+        _pose.TimeFinished = Time.time;
 
         if (_spotlight != null && _spotlight.InSpotlight(name))
         {
@@ -277,7 +284,11 @@ public class Dog : MonoBehaviour
 
         if (wall.layer == LayerMask.NameToLayer("Wall"))
         {
-            Stun(0.5f);
+            Vector2 pos = new Vector2(wall.transform.position.x, wall.transform.position.y);
+            Vector2 dir = (pos - Rigidbody.position).normalized;
+            float speedToWall = Vector2.Dot(Rigidbody.velocity, dir);
+            Debug.Log(speedToWall);
+//            Stun(0.5f);
         }
     }
 

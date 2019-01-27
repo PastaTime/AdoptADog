@@ -160,7 +160,6 @@ public class Dog : MonoBehaviour
         if (_spotlight.InSpotlight(name))
         {
             PointManager.GetSingleton().AddPosePoints(PlayerNumber);
-            Debug.Log("Add pose " + name);
         }
     }
 
@@ -168,7 +167,6 @@ public class Dog : MonoBehaviour
     {
         if (PlayerNumber < 0 || !_spotlight.InSpotlight(name)) return;
         PointManager.GetSingleton().AddPushPoints(PlayerNumber);
-        Debug.Log("Add push " + name);
     }
 
     private IEnumerator RollRoutine()

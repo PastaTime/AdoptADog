@@ -22,7 +22,9 @@ public class AudioManager : MonoBehaviour
         backgroundSource.loop = true;
         if (gameMusic != null)
         {
-            backgroundSource.PlayOneShot(gameMusic);
+            backgroundSource.clip = gameMusic;
+            backgroundSource.Play();
+//            backgroundSource.PlayOneShot(gameMusic);
         }
     }
 

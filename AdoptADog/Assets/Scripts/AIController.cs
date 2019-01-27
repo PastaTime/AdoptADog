@@ -30,7 +30,6 @@ public class AIController : MonoBehaviour
         // Only handle player collisions
         if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            Debug.Log("Hit wall");
             StopAllCoroutines();
             StartCoroutine(Movement());
         }

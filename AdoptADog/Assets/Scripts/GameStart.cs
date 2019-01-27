@@ -27,6 +27,7 @@ public class GameStart : MonoBehaviour
         Display("1");
         yield return new WaitForSeconds(1.0f);
         Display("Pose!");
+        Controller.getSingleton().enabled = true;
         yield return new WaitForSeconds(1.0f);
     }
 

@@ -35,15 +35,12 @@ public class PlayerScoreBar : MonoBehaviour
     {
         _currentPoints = points;
         var barFill = _currentPoints / _maxPoints;
-        Debug.Log(barFill);
         var scale = bar.localScale;
         scale.x = barFill * (maxXPosition - minXPosition);
-        Debug.Log(scale.x);
         bar.localScale = scale;
 
         var pos = bar.transform.localPosition;
         pos.x = minXPosition + 0.5f * scale.x;
-        Debug.Log(pos.x);
         bar.transform.localPosition = pos;
     }
 

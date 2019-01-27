@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _dog = GetComponent<Dog>();
+        _dog.PlayerNumber = playerNumber;
     }
 
     private Vector2 GetMovementDir()

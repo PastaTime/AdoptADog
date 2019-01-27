@@ -11,6 +11,7 @@ public class Dog : MonoBehaviour
 {
     public float Speed { get; set; } = 7;
     private const float acceleration = 0.9f;
+    public int PlayerNumber { get; set; } = -1;
 
     private bool _rolling;
     public bool Rolling
@@ -52,6 +53,7 @@ public class Dog : MonoBehaviour
     public Collider2D PhysicsCollider { get; private set; }
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
+    private SpotlightScript _spotlight;
 
     private readonly List<GameObject> _handledCollisions = new List<GameObject>();
 
@@ -82,6 +84,7 @@ public class Dog : MonoBehaviour
         PhysicsCollider = GetComponent<Collider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
+        _spotlight = FindObjectOfType<SpotlightScript>();
     }
 
     private void Update()
@@ -128,6 +131,12 @@ public class Dog : MonoBehaviour
         Rigidbody.velocity = Rigidbody.velocity.normalized * Speed * _leap.SpeedMultiplier;
 
         StartCoroutine(LeapRoutine());
+    }
+
+    public void PushSomeone()
+    {
+        if (PlayerNumber < 0) return;
+        PointManager.GetSingleton().AddPosePoints(PlayerNumber);
     }
 
     private IEnumerator RollRoutine()

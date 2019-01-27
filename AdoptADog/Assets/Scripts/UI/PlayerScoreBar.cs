@@ -57,7 +57,7 @@ public class PlayerScoreBar : MonoBehaviour
 
     }
 
-    void Update() 
+    void Update()
     {
         if (_maxPoints * .75 < _currentPoints) 
         {

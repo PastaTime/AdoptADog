@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public int playerNumber = 1;
     private Dog _dog;
 
-    public bool CanMove { get; set; }
+    public bool CanMove { get; set; } = true;
 
     private void Start()
     {
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Controller.GetSingleton().GetYDown(playerNumber))
         {
-            _dog.Pose();
+            _dog.Pose(true);
         }
     }
 

@@ -7,15 +7,15 @@ public class PointManager
 {
     private static PointManager _pointManager = null;
     private Dictionary<int, PlayerScoreBar> _registeredPlayers;
-    private Dictionary<int, int> _score;
+    private Dictionary<int, float> _score;
 
-    public int PushPoints = 10;
-    public int PosePoints = 15;
-    public int WinningPoints = 100;
+    public float PushPoints = 10;
+    public float PosePoints = 15;
+    public float WinningPoints = 100;
 
     private PointManager() {
         _registeredPlayers = new Dictionary<int, PlayerScoreBar>();
-        _score = new Dictionary<int, int>();
+        _score = new Dictionary<int, float>();
     }
 
     public static PointManager GetSingleton() {
@@ -23,6 +23,12 @@ public class PointManager
             _pointManager = new PointManager();
         }
         return _pointManager;
+    }
+
+    public void Reset()
+    {
+        _registeredPlayers.Clear();
+        _score.Clear();
     }
 
     public void Register(int player, PlayerScoreBar score) {
@@ -39,12 +45,12 @@ public class PointManager
         }
     }
 
-    public void AddPosePoints(int player) {
-        if (_score[player] + PosePoints >= WinningPoints) {
+    public void AddPosePoints(int player, float dt) {
+        if (_score[player] + PosePoints * dt >= WinningPoints) {
             _registeredPlayers[player].UpdatePoints(WinningPoints);
             EndGame(player);
         } else {
-            _score[player] += PosePoints;
+            _score[player] += PosePoints * dt;
             _registeredPlayers[player].UpdatePoints(_score[player]);
         }
     }
@@ -54,5 +60,6 @@ public class PointManager
         _registeredPlayers[player].PlayerWon();
         Controller.GetSingleton().Enabled = false;
         GameManager.Instance.FinishGame(player);
+        Reset();
     }
 }

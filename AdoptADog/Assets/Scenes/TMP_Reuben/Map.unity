@@ -319,7 +319,7 @@ PrefabInstance:
     - target: {fileID: 8613934440419095679, guid: f5f0c54affbec374a8f692215402a84d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8613934440419095679, guid: f5f0c54affbec374a8f692215402a84d,
         type: 3}
@@ -634,6 +634,11 @@ PrefabInstance:
       propertyPath: playerReady
       value: 
       objectReference: {fileID: 8300000, guid: 52bc9ab5f9cb219479795b49e09c4f2d, type: 3}
+    - target: {fileID: 8850363024290984922, guid: 54a9bb75c67503f4a9c0598de32831fb,
+        type: 3}
+      propertyPath: playerPose
+      value: 
+      objectReference: {fileID: 8300000, guid: 19d2ea13507283b4480349e4d3c6e858, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54a9bb75c67503f4a9c0598de32831fb, type: 3}
 --- !u!1 &1462534166
@@ -646,8 +651,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1462534167}
   m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
+  m_Name: PlayerBounds
+  m_TagString: PlayerBounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

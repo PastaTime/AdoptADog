@@ -17,6 +17,7 @@ namespace DefaultNamespace
 
         public List<PlayerReadyButton> buttonList = new List<PlayerReadyButton>();
         private HashSet<int> _selectedControllers = new HashSet<int>();
+        private HashSet<int> _activePlayers = new HashSet<int>();
         private bool _started = false;
 
         public PlayerReadyButton StartButton;
@@ -201,8 +202,7 @@ namespace DefaultNamespace
 
         public void SpawnPlayer(int playerNumber)
         {
-            _selectedControllers.Add(playerNumber + 1);
-            
+            PlayerPrefs.SetInt("Player" + (playerNumber + 1), 1);
             GameObject player = Instantiate(playerPrefab);
             player.name = "Player" + (playerNumber + 1);
             var playerController = player.GetComponent<PlayerController>();
@@ -216,15 +216,22 @@ namespace DefaultNamespace
 
         public void DespawnPlayer(int playerNumber)
         {
+            PlayerPrefs.SetInt("Player" + (playerNumber + 1), 0);
             var player = GameObject.Find("Player" + (playerNumber + 1));
             Destroy(player);
-            _selectedControllers.Remove(playerNumber);
+            _activePlayers.Remove(playerNumber);
         }
         
 
         public List<int> GetActivePlayers()
         {
-            return _selectedControllers.ToList();
+            List<int> output = new List<int>();
+            for (int i = 1; i <= 4; i++)
+            {
+                output.Add(PlayerPrefs.GetInt("Player" + i));
+            }
+            
+            return output;
         }
 
     }

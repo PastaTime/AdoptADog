@@ -53,6 +53,7 @@ public class PlayerScoreBar : MonoBehaviour
         _maxPoints = _manager.WinningPoints;
 
         _manager.Register(playerNumber, this);
+        Enable = true;
         UpdatePoints(0.0f);
 
     }
@@ -64,7 +65,6 @@ public class PlayerScoreBar : MonoBehaviour
             ToggleColor();
         }
         
-        Enable = _gameManager.GetActivePlayers().Contains(playerNumber);
         
         if (Controller.GetSingleton().GetBackDown(playerNumber))
         {
@@ -94,7 +94,7 @@ public class PlayerScoreBar : MonoBehaviour
         _gameManager = FindObjectOfType <GameManager>();
         if (_gameManager != null)
         {
-            Enable = _gameManager.GetActivePlayers().Contains(playerNumber);
+            Enable = true;
             Debug.Log("Setting Player " + playerNumber + " Score Bar on:" + _enable);
         }
     }

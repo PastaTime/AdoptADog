@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
         if (Controller.getSingleton().getA(playerNumber))
         {
+            Debug.Log("Roll");
             _dog.Roll();
         }
         if (Controller.getSingleton().getB(playerNumber))

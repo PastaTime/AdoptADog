@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 
 namespace DefaultNamespace
@@ -29,6 +30,8 @@ namespace DefaultNamespace
         private string _sceneName;
 
         public static GameManager Instance { get; private set; }
+        private AudioManager _audioManager;
+
 
         private void AddPlayer(int index)
         {
@@ -76,23 +79,44 @@ namespace DefaultNamespace
 
                 }
             }
+
+            if (_sceneName == EndSceneName)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Controller.getSingleton().getA(i + 1))
+                    {
+                        Debug.Log("Pressed");
+                        Ready();
+                    }
+
+                }
+            }
+        }
+
+        private void LoadSceneByName(string name)
+        {
+            Scene scene = SceneManager.GetSceneByName(name);
+            SceneManager.LoadScene(name);
         }
 
 
         public void Ready()
         {
-            SceneManager.LoadScene(ReadySceneName, LoadSceneMode.Single);
+            LoadSceneByName(ReadySceneName);
         }
 
         private void StartGame()
         {
             _started = true;
 
-            SceneManager.LoadScene(MapSceneName, LoadSceneMode.Single);
+            LoadSceneByName(MapSceneName);
         }
 
         public void FinishGame(int playerNum)
         {
+            _audioManager.BackgroundMusic(false);
+            _audioManager.PlayAudio(_audioManager.playerVictory);
             _winningPlayer = playerNum;
             StartCoroutine(EndRoutine());
         }
@@ -100,7 +124,7 @@ namespace DefaultNamespace
         private IEnumerator EndRoutine()
         {
             yield return new WaitForSeconds(1);
-            SceneManager.LoadScene(EndSceneName, LoadSceneMode.Single);
+            LoadSceneByName(EndSceneName);
         }
 
         private void Awake()
@@ -112,6 +136,14 @@ namespace DefaultNamespace
             SceneManager.sceneLoaded += (scene, mode) =>
             {
                 _sceneName = scene.name;
+                _audioManager = FindObjectOfType<AudioManager>();
+
+                if (scene.name == ReadySceneName)
+                {
+                    buttonList.Clear();
+                    _audioManager.BackgroundMusic(true);
+                }
+
                 if (scene.name == MapSceneName)
                 {
                     foreach (var index in _selectedControllers)
@@ -133,6 +165,9 @@ namespace DefaultNamespace
                     playerController.playerNumber = _winningPlayer;
                     var animator = player.GetComponent<Animator>();
                     animator.runtimeAnimatorController = animationControllers[_winningPlayer - 1];
+                    animator.SetBool("Posing", true);
+                    player.transform.localPosition = new Vector2(-2.37f, 1.13f);
+                    player.transform.localScale = new Vector2(0.7f, 0.7f);
                 }
 
                 if (scene.name == ReadySceneName)
@@ -141,7 +176,6 @@ namespace DefaultNamespace
                     buttonList.AddRange(FindObjectsOfType<PlayerReadyButton>()
                         .Where(b => b.name.StartsWith("Player")));
                     buttonList.Sort((a, b) => String.Compare(a.name, b.name, StringComparison.Ordinal));
-                    Debug.Log(buttonList.Count);
                 }
 
             };

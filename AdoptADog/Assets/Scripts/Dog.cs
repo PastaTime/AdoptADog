@@ -51,6 +51,17 @@ public class Dog : MonoBehaviour
         }
     }
 
+    private bool _stunned;
+    public bool Stunned
+    {
+        get => _stunned;
+        set
+        {
+            _stunned = value;
+            _animator.SetBool(StunnedAnimationId, value);
+        }
+    }
+
     public Rigidbody2D Rigidbody { get; private set; }
     public Collider2D PhysicsCollider { get; private set; }
     private SpriteRenderer _spriteRenderer;
@@ -80,10 +91,20 @@ public class Dog : MonoBehaviour
         SpeedMultiplier = 0f,
     };
 
+    private readonly DogAction _stun = new DogAction()
+    {
+        ActionTime = 1f,
+        Cooldown = 0.0f,
+        SpeedMultiplier = 0f,
+    };
+
     private static readonly int RollingAnimationId = Animator.StringToHash("Rolling");
     private static readonly int LeapingAnimationId = Animator.StringToHash("Leaping");
     private static readonly int PosingAnimationId = Animator.StringToHash("Posing");
     private static readonly int VelocityAnimationId = Animator.StringToHash("Velocity");
+    private static readonly int StunnedAnimationId = Animator.StringToHash("Stunned");
+
+    private bool _doPose = false;
 
     public Vector2 MovementDir { get; set; }
 
@@ -99,6 +120,13 @@ public class Dog : MonoBehaviour
 
     private void Update()
     {
+        Posing = _doPose;
+
+        if (Stunned)
+        {
+            Rigidbody.velocity = Vector2.Lerp(Vector2.zero, Rigidbody.velocity, acceleration);
+        }
+
         // Only move freely when you can do an action
         if (CanDoAction())
         {
@@ -116,12 +144,23 @@ public class Dog : MonoBehaviour
         }
 
         _animator.SetFloat(VelocityAnimationId, Rigidbody.velocity.magnitude);
+        _doPose = false;
     }
 
     public void SetCollisionHandled(Dog other)
     {
         manager.PlayAudio(manager.playerContact);
         _handledCollisions.Add(other.gameObject);
+    }
+
+    public void Stun(float stunTime = -1)
+    {
+        if (!CanDoAction(_stun)) return;
+
+        Stunned = true;
+        if (stunTime < 0) stunTime = _stun.ActionTime;
+        StartCoroutine(StunRoutine(stunTime));
+
     }
 
     public void Roll()
@@ -151,15 +190,13 @@ public class Dog : MonoBehaviour
     public void Pose()
     {
         if (!CanDoAction(_pose)) return;
-        Posing = true;
+        _doPose = true;
 
         Rigidbody.velocity = Vector2.zero;
 
-        StartCoroutine(PoseRoutine());
-
-        if (_spotlight.InSpotlight(name))
+        if (_spotlight != null && _spotlight.InSpotlight(name))
         {
-            PointManager.GetSingleton().AddPosePoints(PlayerNumber);
+            PointManager.GetSingleton().AddPosePoints(PlayerNumber, Time.deltaTime);
         }
     }
 
@@ -175,6 +212,14 @@ public class Dog : MonoBehaviour
         yield return new WaitForSeconds(_roll.ActionTime);
         _roll.TimeFinished = Time.time;
         Rolling = false;
+    }
+
+    private IEnumerator StunRoutine(float stunTime)
+    {
+        _stun.TimeStarted = Time.time;
+        yield return new WaitForSeconds(stunTime);
+        _stun.TimeFinished = Time.time;
+        Stunned = false;
     }
 
     private IEnumerator LeapRoutine()
@@ -193,7 +238,8 @@ public class Dog : MonoBehaviour
 
     private bool CanDoAction(DogAction action = null)
     {
-        if (Rolling || Leaping || Posing) return false;
+        if (action == _stun) return true;
+        if (Rolling || Leaping || (action != _pose && Posing) || Stunned) return false;
         if (action == null) return true;
         return Time.time > action.TimeFinished + action.Cooldown;
     }
@@ -221,11 +267,17 @@ public class Dog : MonoBehaviour
     {
         // Only handle player collisions
         var otherPlayer = other.gameObject.GetComponent<Dog>();
+        var wall = other.gameObject;
         if (otherPlayer)
         {
             // Don't handle collisions twice
             if (_handledCollisions.Contains(other.gameObject)) return;
             CollisionUtils.HandlePlayerCollision(this, otherPlayer);
+        }
+
+        if (wall.layer == LayerMask.NameToLayer("Wall"))
+        {
+            Stun(0.5f);
         }
     }
 

@@ -24,7 +24,6 @@ public class AudioManager : MonoBehaviour
         {
             backgroundSource.clip = gameMusic;
             backgroundSource.Play();
-//            backgroundSource.PlayOneShot(gameMusic);
         }
     }
 

@@ -34,6 +34,7 @@ public class PlayerReadyButton : MonoBehaviour
     {
         if (buttonSelected)
         {
+            dog.Pose();
             return;
         }
         else
@@ -50,7 +51,6 @@ public class PlayerReadyButton : MonoBehaviour
     public void SetReady()
     {
         buttonSelected = true;
-        dog.Posing = true;
         selectButton();
     }
     

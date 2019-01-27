@@ -29,6 +29,9 @@ namespace DefaultNamespace
 
         private string _sceneName;
 
+        private Animator _winAnimator;
+        private Dog _winDog;
+
         public static GameManager Instance { get; private set; }
         private AudioManager _audioManager;
 
@@ -82,6 +85,7 @@ namespace DefaultNamespace
 
             if (_sceneName == EndSceneName)
             {
+                _winDog.Pose();
                 for (int i = 0; i < 4; i++)
                 {
                     if (Controller.getSingleton().getA(i + 1))
@@ -164,8 +168,9 @@ namespace DefaultNamespace
                     var playerController = player.GetComponent<PlayerController>();
                     playerController.playerNumber = _winningPlayer;
                     var animator = player.GetComponent<Animator>();
+                    _winAnimator = animator;
                     animator.runtimeAnimatorController = animationControllers[_winningPlayer - 1];
-                    animator.SetBool("Posing", true);
+                    _winDog = player.GetComponent<Dog>();
                     player.transform.localPosition = new Vector2(-2.37f, 1.13f);
                     player.transform.localScale = new Vector2(0.7f, 0.7f);
                 }

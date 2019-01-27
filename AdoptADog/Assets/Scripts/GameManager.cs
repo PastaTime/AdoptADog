@@ -25,6 +25,7 @@ namespace DefaultNamespace
         public string EndSceneName = "End";
         public string ReadySceneName = "Ready";
         public string StartSceneName = "Start";
+        public string InstructionSceneName = "Instructions";
 
         private int _winningPlayer;
 
@@ -111,7 +112,7 @@ namespace DefaultNamespace
 
         public void Ready()
         {
-            LoadSceneByName(ReadySceneName);
+            LoadSceneByName(InstructionSceneName);
         }
 
         private void StartGame()

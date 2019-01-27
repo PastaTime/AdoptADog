@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public int playerNumber = 1;
     private Dog _dog;
 
+    public bool CanMove { get; set; }
+
     private void Start()
     {
         _dog = GetComponent<Dog>();
@@ -26,8 +28,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Vector2 movementDir = GetMovementDir();
+        Vector2 movementDir = CanMove ? GetMovementDir() : Vector2.zero;
         _dog.MovementDir = movementDir;
+
+        if (!CanMove) return;
 
         if (Controller.getSingleton().getA(playerNumber))
         {

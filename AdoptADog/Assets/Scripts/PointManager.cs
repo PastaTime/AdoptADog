@@ -58,7 +58,7 @@ public class PointManager
     private void EndGame(int player)
     {
         _registeredPlayers[player].PlayerWon();
-        Controller.getSingleton().enabled = false;
+        Controller.GetSingleton().Enabled = false;
         GameManager.Instance.FinishGame(player);
         Reset();
     }

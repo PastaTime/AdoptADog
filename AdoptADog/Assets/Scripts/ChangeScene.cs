@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
@@ -11,9 +12,9 @@ public class ChangeScene : MonoBehaviour
     {
         for (int i = 1; i < 5; i++)
         {
-            if (Controller.getSingleton().getX(i)) 
+            if (Controller.GetSingleton().GetXDown(i))
             {
-            //switch scene
+                SceneManager.LoadScene("Ready");
             }
         }
     }

@@ -13,7 +13,7 @@ public class GameStart : MonoBehaviour
     {
         manager = FindObjectOfType<AudioManager>();
         textMesh = GetComponentInChildren<TextMesh>();
-        Controller.getSingleton().enabled = false;
+        Controller.GetSingleton().Enabled = false;
         manager.PlayAudio(manager.gameStart);
         StartCoroutine(StartGame());
     }
@@ -27,7 +27,7 @@ public class GameStart : MonoBehaviour
         Display("1");
         yield return new WaitForSeconds(1.0f);
         Display("Pose!");
-        Controller.getSingleton().enabled = true;
+        Controller.GetSingleton().Enabled = true;
         yield return new WaitForSeconds(1.0f);
     }
 

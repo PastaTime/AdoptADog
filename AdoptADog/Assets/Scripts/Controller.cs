@@ -4,24 +4,28 @@ using UnityEngine;
 
 public class Controller
 {
-    public bool enabled { get; set; }
-    private static Controller control = null;
+    public bool Enabled { get; set; }
+    private static Controller _control = null;
+
+    private static string[] _joyNames = new string[]
+    {
+        "Joy1", "Joy2", "Joy3", "Joy4"
+    };
+
 
     private Controller()
     {
-        enabled = true;
+        Enabled = true;
     }
 
-    public static Controller getSingleton() {
-        if (control == null) {
-            control = new Controller();
-        }
-        return control;
-    }
-
-    public float getHorizontal(int player)
+    public static Controller GetSingleton()
     {
-        if (!enabled) return 0f;
+        return _control ?? (_control = new Controller());
+    }
+
+    public float GetHorizontal(int player)
+    {
+        if (!Enabled) return 0f;
         
         switch(player)
         {
@@ -38,8 +42,8 @@ public class Controller
         return 0.0f;
     }
 
-    public float getVertical(int player) {
-        if (!enabled) return 0f;
+    public float GetVertical(int player) {
+        if (!Enabled) return 0f;
         
         switch(player)
         {
@@ -55,120 +59,53 @@ public class Controller
         return 0.0f;
     }
 
-    public bool getA(int player)
+    public bool GetADown(int player)
     {
-        if (!enabled) return false;
+        if (!Enabled) return false;
+
+        if (player < 0 || player > 4) return false;
         
-        switch(player)
-        {
-            case 1:
-                if (Input.GetKey(KeyCode.Joystick1Button0)) {
-                    return true;
-                }
-                break;
-            case 2:
-                if (Input.GetKey(KeyCode.Joystick2Button0)) {
-                    return true;
-                }
-                break;
-            case 3:
-                if (Input.GetKey(KeyCode.Joystick3Button0)) {
-                    return true;
-                }
-                break;
-            case 4:
-                if (Input.GetKey(KeyCode.Joystick4Button0)) {
-                    return true;
-                }
-                break;               
-        }
-        return false;
+        return Input.GetButtonDown(_joyNames[player - 1] + "A");
     }
 
-    public bool getB(int player) {
-        if (!enabled) return false;
+    public bool GetBDown(int player) {
+        if (!Enabled) return false;
         
-        switch(player)
-        {
-            case 1:
-                if (Input.GetKey(KeyCode.Joystick1Button1)) {
-                    return true;
-                }
-                break;
-            case 2:
-                if (Input.GetKey(KeyCode.Joystick2Button1)) {
-                    return true;
-                }
-                break;
-            case 3:
-                if (Input.GetKey(KeyCode.Joystick3Button1)) {
-                    return true;
-                }
-                break;
-            case 4:
-                if (Input.GetKey(KeyCode.Joystick4Button1)) {
-                    return true;
-                }
-                break;               
-        }
-        return false;
+        if (player < 0 || player > 4) return false;
+        
+        return Input.GetButtonDown(_joyNames[player - 1] + "B");
     }
 
-    public bool getX(int player) {
-        if (!enabled) return false;
+    public bool GetXDown(int player) {
+        if (!Enabled) return false;
         
-        switch(player)
-        {
-            case 1:
-                if (Input.GetKey(KeyCode.Joystick1Button2)) {
-                    return true;
-                }
-                break;
-            case 2:
-                if (Input.GetKey(KeyCode.Joystick2Button2)) {
-                    return true;
-                }
-                break;
-            case 3:
-                if (Input.GetKey(KeyCode.Joystick3Button2)) {
-                    return true;
-                }
-                break;
-            case 4:
-                if (Input.GetKey(KeyCode.Joystick4Button2)) {
-                    return true;
-                }
-                break;               
-        }
-        return false;
+        if (player < 0 || player > 4) return false;
+        
+        return Input.GetButtonDown(_joyNames[player - 1] + "X");
     }
 
-    public bool getY(int player) {
-        if (!enabled) return false;
+    public bool GetYDown(int player) {
+        if (!Enabled) return false;
         
-        switch(player)
-        {
-            case 1:
-                if (Input.GetKey(KeyCode.Joystick1Button3)) {
-                    return true;
-                }
-                break;
-            case 2:
-                if (Input.GetKey(KeyCode.Joystick2Button3)) {
-                    return true;
-                }
-                break;
-            case 3:
-                if (Input.GetKey(KeyCode.Joystick3Button3)) {
-                    return true;
-                }
-                break;
-            case 4:
-                if (Input.GetKey(KeyCode.Joystick4Button3)) {
-                    return true;
-                }
-                break;               
-        }
-        return false;
+        if (player < 0 || player > 4) return false;
+        
+        return Input.GetButtonDown(_joyNames[player - 1] + "Y");
+    }
+    
+    public bool GetYHeld(int player) {
+        if (!Enabled) return false;
+        
+        if (player < 0 || player > 4) return false;
+        
+        return Input.GetButton(_joyNames[player - 1] + "Y");
+    }
+
+    public bool GetBackDown(int player)
+    {
+        if (!Enabled) return false;
+        
+        if (player < 0 || player > 4) return false;
+        
+        return Input.GetButtonDown(_joyNames[player - 1] + "Back");
     }
 }

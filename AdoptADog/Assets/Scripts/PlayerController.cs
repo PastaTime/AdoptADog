@@ -18,8 +18,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 GetMovementDir()
     {
-        float moveHorizontal = Controller.getSingleton().getHorizontal(playerNumber);
-        float moveVertical = Controller.getSingleton().getVertical(playerNumber);
+        float moveHorizontal = Controller.GetSingleton().GetHorizontal(playerNumber);
+        float moveVertical = Controller.GetSingleton().GetVertical(playerNumber);
 
         return new Vector2(moveHorizontal, moveVertical).normalized;
     }
@@ -29,15 +29,15 @@ public class PlayerController : MonoBehaviour
         Vector2 movementDir = GetMovementDir();
         _dog.MovementDir = movementDir;
 
-        if (Controller.getSingleton().getA(playerNumber))
+        if (Controller.GetSingleton().GetADown(playerNumber))
         {
             _dog.Roll();
         }
-        if (Controller.getSingleton().getB(playerNumber))
+        if (Controller.GetSingleton().GetBDown(playerNumber))
         {
             _dog.Leap();
         }
-        if (Controller.getSingleton().getY(playerNumber))
+        if (Controller.GetSingleton().GetYDown(playerNumber))
         {
             _dog.Pose();
         }

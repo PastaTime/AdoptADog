@@ -51,14 +51,14 @@ namespace DefaultNamespace
 
                 for (int i = 0; i < 4; i++)
                 {
-                    if (Controller.getSingleton().getX(i + 1) && buttonList.Count(b => b.PlayerReady()) > 1)
+                    if (Controller.GetSingleton().GetXDown(i + 1) && buttonList.Count(b => b.PlayerReady()) > 1)
                     {
                         StartGame();
                     }
 
                     if (_selectedControllers.Contains(i)) continue;
 
-                    if (Controller.getSingleton().getA(i + 1))
+                    if (Controller.GetSingleton().GetADown(i + 1))
                     {
                         AddPlayer(i);
                     }
@@ -69,7 +69,7 @@ namespace DefaultNamespace
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (Controller.getSingleton().getA(i + 1))
+                    if (Controller.GetSingleton().GetADown(i + 1))
                     {
                         Ready();
                     }
@@ -116,12 +116,7 @@ namespace DefaultNamespace
                 {
                     foreach (var index in _selectedControllers)
                     {
-                        GameObject player = Instantiate(playerPrefab);
-                        player.name = "Player" + (index + 1);
-                        var playerController = player.GetComponent<PlayerController>();
-                        playerController.playerNumber = index + 1;
-                        var animator = player.GetComponent<Animator>();
-                        animator.runtimeAnimatorController = animationControllers[index];
+                        SpawnPlayer(index);
                     }
                 }
 
@@ -145,6 +140,34 @@ namespace DefaultNamespace
                 }
 
             };
+        }
+
+        public void SpawnPlayer(int playerNumber)
+        {
+            if (!GetActivePlayers().Contains(playerNumber))
+            {
+                _selectedControllers.Add(playerNumber);
+            }
+            
+            GameObject player = Instantiate(playerPrefab);
+            player.name = "Player" + (playerNumber + 1);
+            var playerController = player.GetComponent<PlayerController>();
+            playerController.playerNumber = playerNumber + 1;
+            var animator = player.GetComponent<Animator>();
+            animator.runtimeAnimatorController = animationControllers[playerNumber];
+        }
+
+        public void DespawnPlayer(int playerNumber)
+        {
+            var player = GameObject.Find("Player" + (playerNumber + 1));
+            Destroy(player);
+            _selectedControllers.Remove(playerNumber);
+        }
+        
+
+        public List<int> GetActivePlayers()
+        {
+            return _selectedControllers.ToList();
         }
 
     }

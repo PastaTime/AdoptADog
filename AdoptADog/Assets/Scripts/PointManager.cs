@@ -5,7 +5,7 @@ using UnityEngine;
 public class PointManager
 {
     private static PointManager _pointManager = null;
-    private Dictionary<int, object> _registeredPlayers;
+    private Dictionary<int, PlayerScoreBar> _registeredPlayers;
     private Dictionary<int, int> _score;
 
     public int PushPoints = 10;
@@ -13,28 +13,28 @@ public class PointManager
     public int WinningPoints = 50;
 
     private PointManager() {
-        _registeredPlayers = new Dictionary<int, object>();
+        _registeredPlayers = new Dictionary<int, PlayerScoreBar>();
         _score = new Dictionary<int, int>();
     }
 
-    public static PointManager getSingleton() {
+    public static PointManager GetSingleton() {
         if (_pointManager == null) {
             _pointManager = new PointManager();
         }
         return _pointManager;
     }
 
-    public void Register(int player, Object score) {
+    public void Register(int player, PlayerScoreBar score) {
         _registeredPlayers.Add(player, score);
         _score.Add(player, 0);
     }
 
     public void AddPushPoints(int player) {
         if (_score[player] <= PushPoints) {
-            //set score to 0
+            _registeredPlayers[player].UpdatePoints(0f);
         } else {
             _score[player] -= PushPoints;
-            //pass player score to ui
+            _registeredPlayers[player].UpdatePoints(_score[player]);
         }
     }
 
@@ -43,7 +43,7 @@ public class PointManager
             EndGame();
         } else {
             _score[player] += PosePoints;
-            //pass player score to ui
+            _registeredPlayers[player].UpdatePoints(_score[player]);
         }
     }
 

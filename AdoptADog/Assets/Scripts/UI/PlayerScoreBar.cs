@@ -15,6 +15,8 @@ public class PlayerScoreBar : MonoBehaviour
     public float maxXPosition = 6f;
 
     public Transform bar;
+
+    private PointManager _manager = PointManager.GetSingleton();
     
     private float _currentPoints;
     
@@ -22,6 +24,8 @@ public class PlayerScoreBar : MonoBehaviour
     {
         UpdatePoints(10f);
         bar.GetComponent<SpriteRenderer>().color = fillColor;
+        
+        _manager.Register(playerNumber, this);
     }
 
     public void UpdatePoints(float points)

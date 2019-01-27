@@ -25,6 +25,7 @@ public class PlayerReadyButton : MonoBehaviour
     void Start()
     {
         _button = GetComponent<Image>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
     
 

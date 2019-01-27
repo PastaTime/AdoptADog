@@ -9,11 +9,11 @@ AnimatorOverrideController:
   m_Name: Dog3Animation
   m_Controller: {fileID: 9100000, guid: f80fba4667edfa042a3a83fbdc29fbf5, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 6eb74ba738eed304db3109abd714e939, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 9d7d3f9703ddd0c40adaab7685f8c031, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 4b2485e1c4e4f0045a73a1f94a2c9db6, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: b872034c1b213f74c985dd1b6ab79f45, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 817e94bfede2cae4b99aff163253290f, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 84915558401867b47ac6f41d9703a800, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: fc7879237c0b2394999f14a10806866c, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: ac68716cf3f88da4e86f0b9f90acc965, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8d0830cf18334cd488f9e4c594bd4a4d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 590c4c7f2dbdf404cb8302f8b2b0967f, type: 2}

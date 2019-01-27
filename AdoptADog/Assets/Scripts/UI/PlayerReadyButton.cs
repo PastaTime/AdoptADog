@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
 public class PlayerReadyButton : MonoBehaviour
 {
-    public PlayerReadyManager manager;
-    public KeyCode buttonKey = KeyCode.A;
     public bool buttonSelected = false;
+    public Dog dog;
     
     public float pulseTime = 1f;
     
@@ -23,8 +23,6 @@ public class PlayerReadyButton : MonoBehaviour
     void Start()
     {
         _button = GetComponent<Image>();
-        manager = FindObjectOfType<PlayerReadyManager>();
-        manager.Register(this);
     }
     
 
@@ -35,12 +33,6 @@ public class PlayerReadyButton : MonoBehaviour
         {
             return;
         }
-        
-        if (Input.GetKeyDown(buttonKey))
-        {
-            buttonSelected = true;
-            selectButton();
-        }
         else
         {
             pulseButton();
@@ -50,6 +42,13 @@ public class PlayerReadyButton : MonoBehaviour
     public bool PlayerReady()
     {
         return buttonSelected;
+    }
+
+    public void SetReady()
+    {
+        buttonSelected = true;
+        dog.Posing = true;
+        selectButton();
     }
     
 

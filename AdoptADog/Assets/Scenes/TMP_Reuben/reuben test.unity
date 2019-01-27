@@ -758,7 +758,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: 456bcf0fe4cd501428989d53d74fb4ed,
+      objectReference: {fileID: 22100000, guid: 499a36241d6a470499849c4b4780950e,
         type: 2}
     m_RemovedComponents:
     - {fileID: 5556045604722089711, guid: cb8379de3858cc44ebf8e0ee6736013c, type: 3}

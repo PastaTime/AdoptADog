@@ -25,6 +25,12 @@ public class PointManager
         return _pointManager;
     }
 
+    public void Reset()
+    {
+        _registeredPlayers.Clear();
+        _score.Clear();
+    }
+
     public void Register(int player, PlayerScoreBar score) {
         _registeredPlayers.Add(player, score);
         _score.Add(player, 0);
@@ -54,5 +60,6 @@ public class PointManager
         _registeredPlayers[player].PlayerWon();
         Controller.getSingleton().enabled = false;
         GameManager.Instance.FinishGame(player);
+        Reset();
     }
 }

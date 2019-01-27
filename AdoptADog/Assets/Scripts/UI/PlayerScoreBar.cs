@@ -33,7 +33,7 @@ public class PlayerScoreBar : MonoBehaviour
     }
 
     void Update() {
-        if (maxPoints * .75 < _currentPoints) 
+        if (_maxPoints * .75 < _currentPoints)
         {
             ToggleColor();
         }

@@ -88,7 +88,7 @@ namespace DefaultNamespace
 
             if (_sceneName == EndSceneName)
             {
-                _winDog.Pose();
+                _winDog.Pose(false, true);
                 for (int i = 0; i < 4; i++)
                 {
                     if (Controller.getSingleton().getA(i + 1))
@@ -158,12 +158,6 @@ namespace DefaultNamespace
                 _sceneName = scene.name;
                 _audioManager = FindObjectOfType<AudioManager>();
 
-                if (scene.name == ReadySceneName)
-                {
-                    buttonList.Clear();
-                    _audioManager.BackgroundMusic(true);
-                }
-
                 if (scene.name == MapSceneName)
                 {
                     _playerBounds = GameObject.FindGameObjectWithTag("PlayerBounds").GetComponent<RectTransform>();
@@ -196,6 +190,9 @@ namespace DefaultNamespace
 
                 if (scene.name == ReadySceneName)
                 {
+                    buttonList.Clear();
+                    _selectedControllers.Clear();
+                    _audioManager.BackgroundMusic(true);
                     StartButton = FindObjectsOfType<PlayerReadyButton>().Single(b => b.name == "StartButton");
                     buttonList.AddRange(FindObjectsOfType<PlayerReadyButton>()
                         .Where(b => b.name.StartsWith("Player")));

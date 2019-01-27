@@ -187,10 +187,10 @@ public class Dog : MonoBehaviour
         StartCoroutine(LeapRoutine());
     }
 
-    public void Pose(bool withSound = false)
+    public void Pose(bool withSound = false, bool force = false)
     {
-        if (Rolling || Leaping || Stunned) return;
-        if (!Posing)
+        if ((Rolling || Leaping || Stunned) && !force) return;
+        if (!Posing && !force)
         {
             if (Time.time < _pose.TimeFinished + _pose.Cooldown) return;
             manager.PlayAudio(manager.playerPose);

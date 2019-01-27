@@ -15,6 +15,7 @@ public class DropInButton : MonoBehaviour
     void Start()
     {
         scoreBar = GetComponentInParent<PlayerScoreBar>();
+        _manager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame

@@ -54,6 +54,7 @@ namespace DefaultNamespace
                     if (Controller.GetSingleton().GetXDown(i + 1) && buttonList.Count(b => b.PlayerReady()) > 1)
                     {
                         StartGame();
+                        break;
                     }
 
                     if (_selectedControllers.Contains(i)) continue;
@@ -72,6 +73,7 @@ namespace DefaultNamespace
                     if (Controller.GetSingleton().GetADown(i + 1))
                     {
                         Ready();
+                        break;
                     }
 
                 }
@@ -81,6 +83,7 @@ namespace DefaultNamespace
 
         public void Ready()
         {
+            buttonList.Clear();
             SceneManager.LoadScene(ReadySceneName, LoadSceneMode.Single);
         }
 
@@ -144,10 +147,7 @@ namespace DefaultNamespace
 
         public void SpawnPlayer(int playerNumber)
         {
-            if (!GetActivePlayers().Contains(playerNumber))
-            {
-                _selectedControllers.Add(playerNumber);
-            }
+            _selectedControllers.Add(playerNumber + 1);
             
             GameObject player = Instantiate(playerPrefab);
             player.name = "Player" + (playerNumber + 1);
@@ -155,6 +155,8 @@ namespace DefaultNamespace
             playerController.playerNumber = playerNumber + 1;
             var animator = player.GetComponent<Animator>();
             animator.runtimeAnimatorController = animationControllers[playerNumber];
+            
+            Debug.Log("Spawning Player: " + playerNumber);
         }
 
         public void DespawnPlayer(int playerNumber)

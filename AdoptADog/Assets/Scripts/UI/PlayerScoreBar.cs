@@ -68,6 +68,8 @@ public class PlayerScoreBar : MonoBehaviour
 
     private void Update()
     {
+        Enable = _gameManager.GetActivePlayers().Contains(playerNumber);
+        
         if (Controller.GetSingleton().GetBackDown(playerNumber))
         {
             Enable = false;
@@ -77,15 +79,18 @@ public class PlayerScoreBar : MonoBehaviour
 
     public void UpdatePoints(float points)
     {
+        if (!Enable) return;
+        
         _currentPoints = points;
-        var barFill = _currentPoints / _maxPoints;
+        var fill = _currentPoints / _maxPoints;
         var scale = this.barFill.localScale;
-        scale.x = barFill * (maxXPosition - minXPosition);
+        scale.x = fill * (maxXPosition - minXPosition);
         this.barFill.localScale = scale;
 
-        var pos = this.barFill.transform.localPosition;
+        var transform1 = this.barFill.transform;
+        var pos = transform1.localPosition;
         pos.x = minXPosition + 0.5f * scale.x;
-        this.barFill.transform.localPosition = pos;
+        transform1.localPosition = pos;
     }
 
     public void PlayerWon()

@@ -1,13 +1,11 @@
 fileFormatVersion: 2
-guid: 785e7279f1aaf224fb75e8b28dbc0e8c
+guid: 3315af4f44600814f8c322d93e929058
 TextureImporter:
   fileIDToRecycleName:
-    21300000: DogPose3_0
-    21300002: DogPose3_1
-    21300004: DogPose3_2
-    21300006: DogPose3_3
-    21300008: DogPose3_4
-    21300010: DogPose3_5
+    21300000: Dog2_0
+    21300002: Dog2_1
+    21300004: Dog2_2
+    21300006: Dog2_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -90,47 +88,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DogPose3_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1280
-        width: 640
-        height: 640
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f516793e03ee5ea4a885d71491d0fe38
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DogPose3_1
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 1280
-        width: 640
-        height: 640
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 968cd691c125b904cbe17581b320c746
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DogPose3_2
+      name: Dog2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -144,13 +102,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d15cce1a02421041974ea077b289251
+      spriteID: 6e056343fb582ad48af7a856ad1b84b9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DogPose3_3
+      name: Dog2_1
       rect:
         serializedVersion: 2
         x: 640
@@ -164,13 +122,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6a89f7dc15156943a654641160729dd
+      spriteID: 766e58367e42f7a44975996393bd1116
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DogPose3_4
+      name: Dog2_2
       rect:
         serializedVersion: 2
         x: 0
@@ -184,13 +142,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f5aae19fca7a5a42a614515bfbbffba
+      spriteID: 661f505ffb8faec4196dfc6e39e0abce
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DogPose3_5
+      name: Dog2_3
       rect:
         serializedVersion: 2
         x: 640
@@ -204,7 +162,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22722cba4ee956c4996703389409f984
+      spriteID: 537f192c96b79cd4ba6e621d6d00ebf3
       vertices: []
       indices: 
       edges: []
@@ -212,7 +170,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: fe3553e9996adc042a5e186708db7702
+    spriteID: 71be98df4507ace499526ad5c020d087
     vertices: []
     indices: 
     edges: []

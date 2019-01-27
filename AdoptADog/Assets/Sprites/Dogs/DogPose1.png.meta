@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 36300657bafd0ea49a87e8f83684b745
+guid: f529e465c8be88444b3fcc890849ed2d
 TextureImporter:
   fileIDToRecycleName:
     21300000: DogPose1_0
@@ -104,7 +104,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ff9bf945a65b83429ea970643477c8f
+      spriteID: c5ed98617e898624881cd6e44461bd37
       vertices: []
       indices: 
       edges: []
@@ -124,7 +124,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6740a347a3db8e41b63b2a18adefbc0
+      spriteID: 1a5b9043a97b397428df781c5f89b193
       vertices: []
       indices: 
       edges: []
@@ -144,7 +144,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e9a503c65b6b7849807507c0bbbff6e
+      spriteID: 7d2a2e4100a5e3a47893a42969aaae23
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99f1e6368609e4f488d14556fad01b9d
+      spriteID: e7460aec270443c4f9fb09be0ce44fdc
       vertices: []
       indices: 
       edges: []
@@ -184,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0fac9c05ffb1f194b8a6ae0d90da814e
+      spriteID: 9f1e60b607eb3be4587dc6671f42bc67
       vertices: []
       indices: 
       edges: []
@@ -204,7 +204,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62e7500e7e74a694fb87087e3699e9b5
+      spriteID: d30bf83427b3eb34bad7cb86ffdcc3e5
       vertices: []
       indices: 
       edges: []
@@ -212,7 +212,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 3c04f3a0a6304934ca2f693d321a1ec6
+    spriteID: bb092ddd7d54f194a9dd14dad9e3867b
     vertices: []
     indices: 
     edges: []

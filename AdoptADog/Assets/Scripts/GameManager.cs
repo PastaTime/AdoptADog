@@ -86,7 +86,6 @@ namespace DefaultNamespace
                 {
                     if (Controller.getSingleton().getA(i + 1))
                     {
-                        Debug.Log("Pressed");
                         Ready();
                     }
 
@@ -159,6 +158,7 @@ namespace DefaultNamespace
 
                 if (scene.name == EndSceneName)
                 {
+                    Controller.getSingleton().enabled = true;
                     GameObject player = Instantiate(playerPrefab);
                     player.name = "Player" + (_winningPlayer);
                     var playerController = player.GetComponent<PlayerController>();

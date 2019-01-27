@@ -40,14 +40,14 @@ public class PointManager
 
     public void AddPosePoints(int player) {
         if (_score[player] + PosePoints >= WinningPoints) {
-            EndGame();
+            EndGame(player);
         } else {
             _score[player] += PosePoints;
             _registeredPlayers[player].UpdatePoints(_score[player]);
         }
     }
 
-    private void EndGame() {
-        //call new scene
+    private void EndGame(int player) {
+        // Generate Victory Message
     }
 }

@@ -1,11 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
+using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerScoreBar : MonoBehaviour
 {
+    private bool _enable = true;
+    
+    public bool Enable
+    {
+        get => _enable;
+        set
+        {
+            _enable = value;
+            if (_enable)
+            {
+                barFrame.gameObject.SetActive(true);
+                dropInButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                barFrame.gameObject.SetActive(false);
+                dropInButton.gameObject.SetActive(true);
+            }
+        }
+    }
     public int playerNumber = 1;
     
     public Color fillColor = Color.red;
@@ -16,15 +38,18 @@ public class PlayerScoreBar : MonoBehaviour
     public float maxXPosition = 6f;
     private float _flashTime = 0.25f;
 
-    public Transform bar;
+    public Transform barFill;
+    public Transform barFrame;
+    public Transform dropInButton;
 
     private PointManager _manager = PointManager.GetSingleton();
 
     private float _currentPoints;
+    private GameManager _gameManager;
     
     void Start()
     {
-        bar.GetComponent<SpriteRenderer>().color = fillColor;
+        barFill.GetComponent<SpriteRenderer>().color = fillColor;
         _maxPoints = _manager.WinningPoints;
 
         _manager.Register(playerNumber, this);
@@ -32,10 +57,19 @@ public class PlayerScoreBar : MonoBehaviour
 
     }
 
-    void Update() {
-        if (maxPoints * .75 < _currentPoints) 
+    void Update() 
+    {
+        if (_maxPoints * .75 < _currentPoints) 
         {
             ToggleColor();
+        }
+        
+        Enable = _gameManager.GetActivePlayers().Contains(playerNumber);
+        
+        if (Controller.GetSingleton().GetBackDown(playerNumber))
+        {
+            Enable = false;
+            _gameManager.DespawnPlayer(playerNumber);
         }
     }
 
@@ -44,32 +78,44 @@ public class PlayerScoreBar : MonoBehaviour
         _flashTime -= Time.deltaTime;
         if (_flashTime < 0) 
         {
-            if (bar.GetComponent<SpriteRenderer>().color == fillColor) 
+            if (barFill.GetComponent<SpriteRenderer>().color == fillColor) 
             {
-                bar.GetComponent<SpriteRenderer>().color = flashingColor;
-            } else {
-                bar.GetComponent<SpriteRenderer>().color = fillColor;
+                barFill.GetComponent<SpriteRenderer>().color = flashingColor;
+            } else 
+            {
+                barFill.GetComponent<SpriteRenderer>().color = fillColor;
             }
             _flashTime = 0.25f;
         }
     }
 
+    void Awake()
+    {
+        _gameManager = FindObjectOfType <GameManager>();
+        if (_gameManager != null)
+        {
+            Enable = _gameManager.GetActivePlayers().Contains(playerNumber);
+            Debug.Log("Setting Player " + playerNumber + " Score Bar on:" + _enable);
+        }
+    }
+
     public void UpdatePoints(float points)
     {
+        if (!Enable) return;
+        
         _currentPoints = points;
-        var barFill = _currentPoints / _maxPoints;
-        var scale = bar.localScale;
-        scale.x = barFill * (maxXPosition - minXPosition);
-        bar.localScale = scale;
+        var fill = _currentPoints / _maxPoints;
+        var scale = this.barFill.localScale;
+        scale.x = fill * (maxXPosition - minXPosition);
+        this.barFill.localScale = scale;
 
-        var pos = bar.transform.localPosition;
+        var transform1 = this.barFill.transform;
+        var pos = transform1.localPosition;
         pos.x = minXPosition + 0.5f * scale.x;
-        bar.transform.localPosition = pos;
+        transform1.localPosition = pos;
     }
 
     public void PlayerWon()
     {
     }
-    
-    
 }

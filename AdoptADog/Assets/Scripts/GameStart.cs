@@ -5,18 +5,19 @@ using UnityEngine;
 
 public class GameStart : MonoBehaviour
 {
-
-    private AudioManager manager;
+    private AudioManager _manager;
+    private ControllerManager _controllerManager;
+    private TextMesh _textMesh;
     private static float displayTime = 1.2f;
 
-    private TextMesh textMesh;
     // Start is called before the first frame update
     void Start()
     {
-        manager = FindObjectOfType<AudioManager>();
-        textMesh = GetComponentInChildren<TextMesh>();
-        Controller.GetSingleton().Enabled = false;
-        manager.PlayAudio(manager.gameStart);
+        _controllerManager = FindObjectOfType<ControllerManager>();
+        _manager = FindObjectOfType<AudioManager>();
+        _textMesh = GetComponentInChildren<TextMesh>();
+        _controllerManager.Enabled = false;
+        _manager.PlayAudio(_manager.gameStart);
         StartCoroutine(StartGame());
     }
 
@@ -29,7 +30,8 @@ public class GameStart : MonoBehaviour
         Display("1");
         yield return new WaitForSeconds(displayTime);
         Display("Pose!");
-        Controller.GetSingleton().Enabled = true;
+        
+        _controllerManager.Enabled = true;
         yield return new WaitForSeconds(displayTime);
     }
 
@@ -40,9 +42,9 @@ public class GameStart : MonoBehaviour
 
     private IEnumerator DisplayText(string text)
     {
-        textMesh.text = text;
+        _textMesh.text = text;
         yield return new WaitForSeconds(displayTime);
-        textMesh.text = "";
+        _textMesh.text = "";
     }
     
     

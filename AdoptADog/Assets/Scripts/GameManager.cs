@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using XInputDotNetPure;
 using Random = System.Random;
 
 public class GameManager : MonoBehaviour
@@ -20,11 +21,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public void FinishGame(int playerNum)
+    public void FinishGame(PlayerIndex player)
     {
         _audioManager.BackgroundMusic(false);
         _audioManager.PlayAudio(_audioManager.playerVictory);
-        GameState.WinningPlayer = playerNum;
+        GameState.WinningPlayer = player;
         StartCoroutine(EndRoutine());
     }
 

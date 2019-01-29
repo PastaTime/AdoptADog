@@ -2,6 +2,7 @@
 using UnityEngine.Serialization;
 ﻿using DefaultNamespace;
 using UnityEngine.UI;
+using XInputDotNetPure;
 
 [RequireComponent(typeof(PulseButton))]
 public class PlayerReadyButton : MonoBehaviour
@@ -10,10 +11,11 @@ public class PlayerReadyButton : MonoBehaviour
     public bool buttonSelected = false;
     public Dog dog;
 
-    public int playerNumber;
+    public PlayerIndex playerNumber;
 
     // Used for flashing the button.
     private PlayerReadyManager _manager;
+    private ControllerManager _controllerManager;
     private PulseButton _pulseButton;
 
     public bool PlayerReady => buttonSelected;
@@ -22,7 +24,10 @@ public class PlayerReadyButton : MonoBehaviour
     {
         _audioManager = FindObjectOfType<AudioManager>();
         _manager = FindObjectOfType<PlayerReadyManager>();
+        _controllerManager = FindObjectOfType<ControllerManager>();
+        
         _pulseButton = GetComponent<PulseButton>();
+        
 
         _manager.Register(this);
     }
@@ -36,7 +41,7 @@ public class PlayerReadyButton : MonoBehaviour
             return;
         }
 
-        if (Controller.GetSingleton().GetADown(playerNumber))
+        if (_controllerManager.GetADown(playerNumber))
         {
             SelectButton();
         }

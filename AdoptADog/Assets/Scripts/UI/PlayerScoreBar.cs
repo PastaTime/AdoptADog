@@ -5,6 +5,7 @@ using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using XInputDotNetPure;
 
 public class PlayerScoreBar : MonoBehaviour
 {
@@ -28,7 +29,8 @@ public class PlayerScoreBar : MonoBehaviour
             }
         }
     }
-    public int playerNumber = 1;
+
+    public PlayerIndex playerIndex = PlayerIndex.One;
     
     public Color fillColor = Color.red;
     public Color flashingColor = Color.white;
@@ -42,20 +44,24 @@ public class PlayerScoreBar : MonoBehaviour
     public Transform barFrame;
     public Transform dropInButton;
 
-    private PointManager _manager = PointManager.GetSingleton();
+    
 
     private float _currentPoints;
+    private PointManager _manager;
     private PlayerManager _playerManager;
+    private ControllerManager _controllerManager;
     
     void Start()
     {
+        _controllerManager = FindObjectOfType<ControllerManager>();
+        _manager = FindObjectOfType<PointManager>();
+        
         barFill.GetComponent<SpriteRenderer>().color = fillColor;
         _maxPoints = _manager.WinningPoints;
 
-        _manager.Register(playerNumber, this);
+        _manager.Register(playerIndex, this);
         Enable = true;
         UpdatePoints(0.0f);
-
     }
 
     void Update()
@@ -66,10 +72,10 @@ public class PlayerScoreBar : MonoBehaviour
         }
         
         
-        if (Controller.GetSingleton().GetBackDown(playerNumber))
+        if (_controllerManager.GetBackDown(playerIndex))
         {
             Enable = false;
-            _playerManager.DespawnPlayer(playerNumber);
+            _playerManager.DespawnPlayer(playerIndex);
         }
     }
 
@@ -95,7 +101,7 @@ public class PlayerScoreBar : MonoBehaviour
         if (_playerManager != null)
         {
             Enable = true;
-            Debug.Log("Setting Player " + playerNumber + " Score Bar on:" + _enable);
+            Debug.Log("Setting Player " + playerIndex + " Score Bar on:" + _enable);
         }
     }
 

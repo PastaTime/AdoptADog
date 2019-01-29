@@ -1,111 +1,163 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using XInputDotNetPure;
 
-public class Controller
+public class ControllerManager : MonoBehaviour
 {
     public bool Enabled { get; set; }
-    private static Controller _control = null;
 
-    private static string[] _joyNames = new string[]
-    {
-        "Joy1", "Joy2", "Joy3", "Joy4"
-    };
+    private GamePadButtons[] lastFrame;
 
-
-    private Controller()
+    void Start()
     {
         Enabled = true;
     }
 
-    public static Controller GetSingleton()
+    void LateUpdate()
     {
-        return _control ?? (_control = new Controller());
+        for (int i = 0; i < 4; i++)
+        {
+            lastFrame[i] = GamePad.GetState((PlayerIndex) i).Buttons;
+        }
     }
 
-    public float GetHorizontal(int player)
+    public float GetHorizontal(PlayerIndex player)
     {
         if (!Enabled) return 0f;
-        
-        switch(player)
+
+        if (player == PlayerIndex.One && GetAxisFromKeys(KeyCode.RightArrow, KeyCode.LeftArrow) != 0)
         {
-            case 1:
-                return Input.GetAxis("Joystick1Horizontal");
-            case 2:
-                return Input.GetAxis("Joystick2Horizontal");
-            case 3:
-                return Input.GetAxis("Joystick3Horizontal");
-            case 4:
-                return Input.GetAxis("Joystick4Horizontal");
-          
+            return (float) GetAxisFromKeys(KeyCode.RightArrow, KeyCode.LeftArrow);
         }
-        return 0.0f;
+        
+        if (player == PlayerIndex.Two && GetAxisFromKeys(KeyCode.D, KeyCode.A) != 0)
+        {
+            return (float) GetAxisFromKeys(KeyCode.D, KeyCode.A);
+        }
+
+        GamePadState state = GamePad.GetState(player);
+    
+        return state.ThumbSticks.Right.X + state.ThumbSticks.Right.X;
     }
 
-    public float GetVertical(int player) {
+    public float GetVertical(PlayerIndex player) {
         if (!Enabled) return 0f;
         
-        switch(player)
+        if (player == PlayerIndex.One && GetAxisFromKeys(KeyCode.UpArrow, KeyCode.DownArrow) != 0)
         {
-            case 1:
-                return Input.GetAxis("Joystick1Vertical");
-            case 2:
-                return Input.GetAxis("Joystick2Vertical");
-            case 3:
-                return Input.GetAxis("Joystick3Vertical");
-            case 4:
-                return Input.GetAxis("Joystick4Vertical");           
+            return (float) GetAxisFromKeys(KeyCode.UpArrow, KeyCode.DownArrow);
         }
-        return 0.0f;
+        
+        if (player == PlayerIndex.Two && GetAxisFromKeys(KeyCode.W, KeyCode.S) != 0)
+        {
+            return (float) GetAxisFromKeys(KeyCode.W, KeyCode.S);
+        }
+        
+        GamePadState state = GamePad.GetState(player);
+        
+        return state.ThumbSticks.Left.Y + state.ThumbSticks.Right.Y;
     }
 
-    public bool GetADown(int player)
+    public bool GetADown(PlayerIndex player)
     {
         if (!Enabled) return false;
 
-        if (player < 0 || player > 4) return false;
+        if (player == PlayerIndex.One && Input.GetKeyDown(KeyCode.Comma))
+        {
+            return true;
+        }
         
-        return Input.GetButtonDown(_joyNames[player - 1] + "A");
+        if (player == PlayerIndex.Two && Input.GetKeyDown(KeyCode.C))
+        {
+            return true;
+        }
+
+        GamePadState state = GamePad.GetState(player);
+
+        return state.Buttons.A == ButtonState.Pressed && lastFrame[(int) player].A == ButtonState.Released;
     }
 
-    public bool GetBDown(int player) {
+    public bool GetBDown(PlayerIndex player) {
         if (!Enabled) return false;
         
-        if (player < 0 || player > 4) return false;
+        if (player == PlayerIndex.One && Input.GetKeyDown(KeyCode.Period))
+        {
+            return true;
+        }
         
-        return Input.GetButtonDown(_joyNames[player - 1] + "B");
+        if (player == PlayerIndex.Two && Input.GetKeyDown(KeyCode.V))
+        {
+            return true;
+        }
+
+        GamePadState state = GamePad.GetState(player);
+
+        return state.Buttons.B == ButtonState.Pressed && lastFrame[(int) player].B == ButtonState.Released;
     }
 
-    public bool GetXDown(int player) {
+    public bool GetXDown(PlayerIndex player) {
         if (!Enabled) return false;
         
-        if (player < 0 || player > 4) return false;
+        if ((player == PlayerIndex.One || player == PlayerIndex.Two) && Input.GetKeyDown(KeyCode.Return))
+        {
+            return true;
+        }
         
-        return Input.GetButtonDown(_joyNames[player - 1] + "X");
+        GamePadState state = GamePad.GetState(player);
+
+        return state.Buttons.X == ButtonState.Pressed && lastFrame[(int) player].X == ButtonState.Released;
     }
 
-    public bool GetYDown(int player) {
+    public bool GetYDown(PlayerIndex player) {
         if (!Enabled) return false;
+
+        if (player == PlayerIndex.One && Input.GetKeyDown(KeyCode.Slash))
+        {
+            return true;
+        }
         
-        if (player < 0 || player > 4) return false;
+        if (player == PlayerIndex.Two && Input.GetKeyDown(KeyCode.B))
+        {
+            return true;
+        }
         
-        return Input.GetButtonDown(_joyNames[player - 1] + "Y");
+        GamePadState state = GamePad.GetState(player);
+
+        return state.Buttons.Y == ButtonState.Pressed && lastFrame[(int) player].Y == ButtonState.Released;
     }
     
-    public bool GetYHeld(int player) {
+    public bool GetYHeld(PlayerIndex player) {
         if (!Enabled) return false;
+
+        GamePadState state = GamePad.GetState(player);
         
-        if (player < 0 || player > 4) return false;
+        if (player == PlayerIndex.One && Input.GetKey(KeyCode.Slash))
+        {
+            return true;
+        }
         
-        return Input.GetButton(_joyNames[player - 1] + "Y");
+        if (player == PlayerIndex.Two && Input.GetKey(KeyCode.B))
+        {
+            return true;
+        }
+
+        return state.Buttons.Y == ButtonState.Pressed;
     }
 
-    public bool GetBackDown(int player)
+    public bool GetBackDown(PlayerIndex player)
     {
         if (!Enabled) return false;
-        
-        if (player < 0 || player > 4) return false;
-        
-        return Input.GetButtonDown(_joyNames[player - 1] + "Back");
+
+        GamePadState state = GamePad.GetState(player);
+
+        return state.Buttons.Back == ButtonState.Pressed && lastFrame[(int) player].Back == ButtonState.Released;
+    }
+
+    private int GetAxisFromKeys(KeyCode positiveKey, KeyCode negativeKey)
+    {
+        var axis = Input.GetKey(positiveKey) ? 1 : 0;
+        axis += Input.GetKey(negativeKey) ? -1 : 0;
+
+        return axis;
     }
 }

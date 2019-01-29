@@ -5,7 +5,7 @@ namespace DefaultNamespace
     public static class CollisionUtils
     {
         public static int PushForce = 20;
-        public static int LeapPushForce = 10;
+        public static int LeapPushForce = 15;
 
         public static void HandlePlayerCollision(Dog d1, Dog d2)
         {
@@ -34,8 +34,8 @@ namespace DefaultNamespace
 
             loserDog.Rigidbody.AddForce(dir * force, ForceMode2D.Impulse);
 
-            if (loserDog.Posing) loserDog.DoAction(Dog.Stun);
-            if (winnerDog.Posing) winnerDog.DoAction(Dog.Stun);
+            if (loserDog.Posing) loserDog.Stun();
+            if (winnerDog.Posing) winnerDog.Stun();
         }
     }
 }

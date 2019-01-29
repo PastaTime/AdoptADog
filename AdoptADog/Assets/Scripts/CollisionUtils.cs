@@ -29,11 +29,13 @@ namespace DefaultNamespace
 
             float force = winnerDog.Leaping ? PushForce + LeapPushForce : PushForce;
 
-            winnerDog.PushSomeone();
+            // Lose points if you weren't stunned
+            if (!winnerDog.Stunned) winnerDog.PushSomeone();
+
             loserDog.Rigidbody.AddForce(dir * force, ForceMode2D.Impulse);
 
-            if (loserDog.Posing) loserDog.Stun();
-            if (winnerDog.Posing) winnerDog.Stun();
+            if (loserDog.Posing) loserDog.DoAction(Dog.Stun);
+            if (winnerDog.Posing) winnerDog.DoAction(Dog.Stun);
         }
     }
 }

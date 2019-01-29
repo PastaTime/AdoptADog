@@ -3,31 +3,29 @@ using UnityEngine.Serialization;
 ﻿using DefaultNamespace;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
+[RequireComponent(typeof(PulseButton))]
 public class PlayerReadyButton : MonoBehaviour
 {
-    public AudioManager audioManager;
+    public AudioManager _audioManager;
     public bool buttonSelected = false;
     public Dog dog;
-    
-    public float pulseTime = 1f;
-    
-    public Sprite buttonUpImage;
-    public Sprite buttonDownImage;
-    public Sprite buttonSelectedImage;
-    
-    private float _currentTime = 0f;
-    
+
+    public int playerNumber;
+
     // Used for flashing the button.
-    private bool _buttonFlashState = true;
-    private Image _button;
+    private PlayerReadyManager _manager;
+    private PulseButton _pulseButton;
+
+    public bool PlayerReady => buttonSelected;
 
     void Start()
     {
-        _button = GetComponent<Image>();
-        audioManager = FindObjectOfType<AudioManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
+        _manager = FindObjectOfType<PlayerReadyManager>();
+        _pulseButton = GetComponent<PulseButton>();
+
+        _manager.Register(this);
     }
-    
 
     // Update is called once per frame
     void Update()
@@ -37,51 +35,19 @@ public class PlayerReadyButton : MonoBehaviour
             dog.Pose();
             return;
         }
-        else
+
+        if (Controller.GetSingleton().GetADown(playerNumber))
         {
-            pulseButton();
+            SelectButton();
         }
     }
 
-    public bool PlayerReady()
-    {
-        return buttonSelected;
-    }
 
-    public void SetReady()
+    private void SelectButton()
     {
+        _audioManager.PlayAudio(_audioManager.playerReady);
+        GameState.ActivePlayers.Add(playerNumber);
+        _pulseButton.Selected = true;
         buttonSelected = true;
-        selectButton();
-    }
-    
-
-    private void pulseButton()
-    {
-        _currentTime += Time.deltaTime;
-        if (_currentTime > pulseTime)
-        {
-            _currentTime = 0f;
-            toggleButton();
-        }
-    }
-
-    private void toggleButton()
-    {
-        _buttonFlashState = !_buttonFlashState;
-
-        if (_buttonFlashState)
-        {
-            _button.sprite = buttonUpImage;
-        }
-        else
-        {
-            _button.sprite = buttonDownImage;
-        }
-    }
-
-    private void selectButton()
-    {
-        _button.sprite = buttonSelectedImage;
-        audioManager.PlayAudio(audioManager.playerReady);
     }
 }

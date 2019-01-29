@@ -22,10 +22,12 @@ public class SpotlightScript : MonoBehaviour
     void Start()
     {
         //don't know if any scaling is required
-        maxX = _playField.position.x + _playField.rect.width/2 - 0.25f - radius;
-        maxY = _playField.position.y + _playField.rect.height/2 - 0.25f - radius;
-        minX = _playField.position.x - _playField.rect.width/2 + 0.25f + radius;
-        minY = _playField.position.y - _playField.rect.height/2 + 0.25f + radius;
+        var position = _playField.position;
+        var rect = _playField.rect;
+        maxX = position.x + rect.width/2 - 0.25f - radius;
+        maxY = position.y + rect.height/2 - 0.25f - radius;
+        minX = position.x - rect.width/2 + 0.25f + radius;
+        minY = position.y - rect.height/2 + 0.25f + radius;
 
         newPosition();
     }

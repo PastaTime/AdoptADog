@@ -45,7 +45,7 @@ public class PlayerScoreBar : MonoBehaviour
     private PointManager _manager = PointManager.GetSingleton();
 
     private float _currentPoints;
-    private GameManager _gameManager;
+    private PlayerManager _playerManager;
     
     void Start()
     {
@@ -69,7 +69,7 @@ public class PlayerScoreBar : MonoBehaviour
         if (Controller.GetSingleton().GetBackDown(playerNumber))
         {
             Enable = false;
-            _gameManager.DespawnPlayer(playerNumber);
+            _playerManager.DespawnPlayer(playerNumber);
         }
     }
 
@@ -91,8 +91,8 @@ public class PlayerScoreBar : MonoBehaviour
 
     void Awake()
     {
-        _gameManager = FindObjectOfType <GameManager>();
-        if (_gameManager != null)
+        _playerManager = FindObjectOfType<PlayerManager>();
+        if (_playerManager != null)
         {
             Enable = true;
             Debug.Log("Setting Player " + playerNumber + " Score Bar on:" + _enable);

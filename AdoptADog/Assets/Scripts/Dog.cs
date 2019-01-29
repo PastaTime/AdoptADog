@@ -15,50 +15,46 @@ public class Dog : MonoBehaviour
     private const float acceleration = 0.9f;
     public int PlayerNumber { get; set; } = -1;
 
-    private bool _rolling;
     public bool Rolling
     {
-        get => _rolling;
+        get => Roll.Active;
 
         private set
         {
             _spriteRenderer.flipY = value;
             gameObject.layer = value ? LayerMask.NameToLayer("Dodge") : LayerMask.NameToLayer("Dog");
-            _rolling = value;
+            Roll.Active = value;
             _animator.SetBool(RollingAnimationId, value);
         }
     }
 
-    private bool _leaping;
     public bool Leaping
     {
-        get => _leaping;
+        get => Leap.Active;
         private set
         {
-            _leaping = value;
+            Leap.Active = value;
             _animator.SetBool(LeapingAnimationId, value);
         }
     }
 
-    private bool _posing;
     public bool Posing
     {
-        get => _posing;
+        get => _pose.Active;
         set
         {
-            if (_posing == value) return;
-            _posing = value;
+            if (_pose.Active == value) return;
+            _pose.Active = value;
             _animator.SetBool(PosingAnimationId, value);
         }
     }
 
-    private bool _stunned;
     public bool Stunned
     {
-        get => _stunned;
+        get => Stun.Active;
         set
         {
-            _stunned = value;
+            Stun.Active = value;
             _animator.SetBool(StunnedAnimationId, value);
         }
     }
@@ -71,14 +67,14 @@ public class Dog : MonoBehaviour
 
     private readonly List<GameObject> _handledCollisions = new List<GameObject>();
 
-    private readonly DogAction _roll = new DogAction()
+    public static readonly DogAction Roll = new DogAction()
     {
         ActionTime = 0.4f,
         Cooldown = 0.7f,
         SpeedMultiplier = 1.2f,
     };
 
-    private readonly DogAction _leap = new DogAction()
+    public static readonly DogAction Leap = new DogAction()
     {
         ActionTime = 0.3f,
         Cooldown = 0.7f,
@@ -92,7 +88,7 @@ public class Dog : MonoBehaviour
         SpeedMultiplier = 0f,
     };
 
-    private readonly DogAction _stun = new DogAction()
+    public static readonly DogAction Stun = new DogAction()
     {
         ActionTime = 0.9f,
         Cooldown = 0.0f,
@@ -102,7 +98,7 @@ public class Dog : MonoBehaviour
     private static readonly int RollingAnimationId = Animator.StringToHash("Rolling");
     private static readonly int LeapingAnimationId = Animator.StringToHash("Leaping");
     private static readonly int PosingAnimationId = Animator.StringToHash("Posing");
-    private static readonly int VelocityAnimationId = Animator.StringToHash("Velocity");
+    private static readonly int WalkingAnimationId = Animator.StringToHash("Walking");
     private static readonly int StunnedAnimationId = Animator.StringToHash("Stunned");
 
     private bool _doPose = false;
@@ -117,6 +113,11 @@ public class Dog : MonoBehaviour
         _animator = GetComponent<Animator>();
         _spotlight = FindObjectOfType<SpotlightScript>();
         manager = FindObjectOfType<AudioManager>();
+
+        if (manager == null) return;
+        Leap.Audio = manager.playerLeap;
+        _pose.Audio = manager.playerPose;
+        Roll.Audio = manager.playerRoll;
     }
 
     private void Update()
@@ -142,7 +143,7 @@ public class Dog : MonoBehaviour
             _spriteRenderer.flipX = false;
         }
 
-        _animator.SetFloat(VelocityAnimationId, Rigidbody.velocity.magnitude);
+        _animator.SetBool(WalkingAnimationId, Rigidbody.velocity.magnitude > 0.1);
         Posing = _doPose;
         _doPose = false;
     }
@@ -153,38 +154,19 @@ public class Dog : MonoBehaviour
         _handledCollisions.Add(other.gameObject);
     }
 
-    public void Stun(float stunTime = -1)
+    public void DoAction(DogAction action)
     {
-        if (!CanDoAction(_stun)) return;
+        if (!CanDoAction(action)) return;
+        action.Active = true;
 
-        Stunned = true;
-        if (stunTime < 0) stunTime = _stun.ActionTime;
-        StartCoroutine(StunRoutine(stunTime));
+        if (action != Stun)
+        {
+            Rigidbody.velocity = MovementDir * Speed * action.SpeedMultiplier;
+        }
 
-    }
+        if (action.Audio != null) manager.PlayAudio(action.Audio);
 
-    public void Roll()
-    {
-        if (!CanDoAction(_roll)) return;
-        Rolling = true;
-
-        Rigidbody.velocity = MovementDir * Speed * _roll.SpeedMultiplier;
-        
-        manager.PlayAudio(manager.playerRoll);
-
-        StartCoroutine(RollRoutine());
-    }
-
-    public void Leap()
-    {
-        if (!CanDoAction(_leap)) return;
-        Leaping = true;
-
-        Rigidbody.velocity = MovementDir * Speed * _leap.SpeedMultiplier;
-        
-        manager.PlayAudio(manager.playerLeap);
-
-        StartCoroutine(LeapRoutine());
+        StartCoroutine(ActionRoutine(action));
     }
 
     public void Pose(bool withSound = false, bool force = false)
@@ -213,39 +195,17 @@ public class Dog : MonoBehaviour
         PointManager.GetSingleton().AddPushPoints(PlayerNumber);
     }
 
-    private IEnumerator RollRoutine()
+    private IEnumerator ActionRoutine(DogAction action)
     {
-        _roll.TimeStarted = Time.time;
-        yield return new WaitForSeconds(_roll.ActionTime);
-        _roll.TimeFinished = Time.time;
-        Rolling = false;
-    }
-
-    private IEnumerator StunRoutine(float stunTime)
-    {
-        _stun.TimeStarted = Time.time;
-        yield return new WaitForSeconds(stunTime);
-        _stun.TimeFinished = Time.time;
-        Stunned = false;
-    }
-
-    private IEnumerator LeapRoutine()
-    {
-        yield return new WaitForSeconds(_leap.ActionTime);
-        Leaping = false;
-        _leap.TimeFinished = Time.time;
-    }
-
-    private IEnumerator PoseRoutine()
-    {
-        yield return new WaitForSeconds(_pose.ActionTime);
-        Posing = false;
-        _pose.TimeFinished = Time.time;
+        action.TimeStarted = Time.time;
+        yield return new WaitForSeconds(action.ActionTime);
+        action.TimeFinished = Time.time;
+        action.Active = false;
     }
 
     private bool CanDoAction(DogAction action = null)
     {
-        if (action == _stun) return true;
+        if (action == Stun) return true;
         if (Rolling || Leaping || (action != _pose && Posing) || Stunned) return false;
         if (action == null) return true;
         return Time.time > action.TimeFinished + action.Cooldown;
@@ -259,14 +219,14 @@ public class Dog : MonoBehaviour
         float v1 = Vector2.Dot(other.Rigidbody.velocity, Rigidbody.velocity);
         float v2 = Rigidbody.velocity.magnitude;
         float relativeVelocity = v2 - v1;
-        float timeLeft = _roll.ActionTime - (Time.time - _roll.TimeStarted);
+        float timeLeft = Roll.ActionTime - (Time.time - Roll.TimeStarted);
 
         // If there's not enough time to pass the player, stop rolling
         if (Math.Abs(relativeVelocity) * timeLeft < other.PhysicsCollider.bounds.size.x + PhysicsCollider.bounds.size.x)
         {
             Rolling = false;
-            _roll.TimeFinished = Time.time;
-            StopCoroutine(RollRoutine());
+            Roll.TimeFinished = Time.time;
+            StopCoroutine(ActionRoutine(Roll));
         }
     }
 
@@ -280,15 +240,6 @@ public class Dog : MonoBehaviour
             // Don't handle collisions twice
             if (_handledCollisions.Contains(other.gameObject)) return;
             CollisionUtils.HandlePlayerCollision(this, otherPlayer);
-        }
-
-        if (wall.layer == LayerMask.NameToLayer("Wall"))
-        {
-            Vector2 pos = new Vector2(wall.transform.position.x, wall.transform.position.y);
-            Vector2 dir = (pos - Rigidbody.position).normalized;
-            float speedToWall = Vector2.Dot(Rigidbody.velocity, dir);
-            Debug.Log(speedToWall);
-//            Stun(0.5f);
         }
     }
 
@@ -310,4 +261,6 @@ public class DogAction
     public float Cooldown { get; set; }
     public float TimeStarted { get; set; } = float.MinValue;
     public float TimeFinished { get; set; } = float.MinValue;
+    public bool Active { get; set; }
+    public AudioClip Audio { get; set; }
 }

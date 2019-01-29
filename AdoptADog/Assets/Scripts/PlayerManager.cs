@@ -18,13 +18,13 @@ public class PlayerManager : MonoBehaviour
 
     public void SpawnPlayer(int playerNumber)
     {
-        PlayerPrefs.SetInt("Player" + (playerNumber + 1), 1);
+        PlayerPrefs.SetInt("Player" + (playerNumber), 1);
         GameObject player = Instantiate(playerPrefab);
-        player.name = "Player" + (playerNumber + 1);
+        player.name = "Player" + (playerNumber);
         var playerController = player.GetComponent<PlayerController>();
-        playerController.playerNumber = playerNumber + 1;
+        playerController.playerNumber = playerNumber;
         var animator = player.GetComponent<Animator>();
-        animator.runtimeAnimatorController = animationControllers[playerNumber];
+        animator.runtimeAnimatorController = animationControllers[playerNumber - 1];
         player.transform.localPosition = Utils.RandomPoint(_playerBounds.position, _playerBounds.rect);
 
         Debug.Log("Spawning Player: " + playerNumber);

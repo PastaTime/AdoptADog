@@ -17,31 +17,17 @@ public class Dog : MonoBehaviour
 
     public bool Rolling
     {
-        get => Roll.Active;
-
-        private set
-        {
-            _spriteRenderer.flipY = value;
-            gameObject.layer = value ? LayerMask.NameToLayer("Dodge") : LayerMask.NameToLayer("Dog");
-            Roll.Active = value;
-            _animator.SetBool(RollingAnimationId, value);
-        }
+        get => _roll.Active;
+        set => _roll.Active = value;
     }
 
-    public bool Leaping
-    {
-        get => Leap.Active;
-        private set
-        {
-            Leap.Active = value;
-            _animator.SetBool(LeapingAnimationId, value);
-        }
-    }
+    public bool Leaping => _leap.Active;
+    public bool Stunned => _stun.Active;
 
     public bool Posing
     {
         get => _pose.Active;
-        set
+        private set
         {
             if (_pose.Active == value) return;
             _pose.Active = value;
@@ -49,15 +35,6 @@ public class Dog : MonoBehaviour
         }
     }
 
-    public bool Stunned
-    {
-        get => Stun.Active;
-        set
-        {
-            Stun.Active = value;
-            _animator.SetBool(StunnedAnimationId, value);
-        }
-    }
 
     public Rigidbody2D Rigidbody { get; private set; }
     public Collider2D PhysicsCollider { get; private set; }
@@ -67,18 +44,27 @@ public class Dog : MonoBehaviour
 
     private readonly List<GameObject> _handledCollisions = new List<GameObject>();
 
-    public static readonly DogAction Roll = new DogAction()
+    private readonly DogAction _roll = new DogAction()
     {
         ActionTime = 0.4f,
         Cooldown = 0.7f,
         SpeedMultiplier = 1.2f,
+        OnChange = (dog, value) =>
+        {
+            dog.gameObject.layer = value ? LayerMask.NameToLayer("Dodge") : LayerMask.NameToLayer("Dog");
+            dog._animator.SetBool(RollingAnimationId, value);
+        }
     };
 
-    public static readonly DogAction Leap = new DogAction()
+    private readonly DogAction _leap = new DogAction()
     {
         ActionTime = 0.3f,
         Cooldown = 0.7f,
         SpeedMultiplier = 1.5f,
+        OnChange = (dog, value) =>
+        {
+            dog._animator.SetBool(LeapingAnimationId, value);
+        }
     };
 
     private readonly DogAction _pose = new DogAction()
@@ -88,11 +74,15 @@ public class Dog : MonoBehaviour
         SpeedMultiplier = 0f,
     };
 
-    public static readonly DogAction Stun = new DogAction()
+    private readonly DogAction _stun = new DogAction()
     {
         ActionTime = 0.9f,
         Cooldown = 0.0f,
         SpeedMultiplier = 0f,
+        OnChange = (dog, value) =>
+        {
+            dog._animator.SetBool(StunnedAnimationId, value);
+        }
     };
 
     private static readonly int RollingAnimationId = Animator.StringToHash("Rolling");
@@ -115,9 +105,9 @@ public class Dog : MonoBehaviour
         manager = FindObjectOfType<AudioManager>();
 
         if (manager == null) return;
-        Leap.Audio = manager.playerLeap;
+        _leap.Audio = manager.playerLeap;
         _pose.Audio = manager.playerPose;
-        Roll.Audio = manager.playerRoll;
+        _roll.Audio = manager.playerRoll;
     }
 
     private void Update()
@@ -143,7 +133,7 @@ public class Dog : MonoBehaviour
             _spriteRenderer.flipX = false;
         }
 
-        _animator.SetBool(WalkingAnimationId, Rigidbody.velocity.magnitude > 0.1);
+        _animator.SetFloat(WalkingAnimationId, Math.Abs(Rigidbody.velocity.magnitude) > 0.1 ? 1 : 0);
         Posing = _doPose;
         _doPose = false;
     }
@@ -154,12 +144,17 @@ public class Dog : MonoBehaviour
         _handledCollisions.Add(other.gameObject);
     }
 
-    public void DoAction(DogAction action)
+    public void Roll() => DoAction(_roll);
+    public void Leap() => DoAction(_leap);
+    public void Stun() => DoAction(_stun);
+
+    private void DoAction(DogAction action)
     {
         if (!CanDoAction(action)) return;
         action.Active = true;
+        action.OnChange(this, true);
 
-        if (action != Stun)
+        if (action != _stun)
         {
             Rigidbody.velocity = MovementDir * Speed * action.SpeedMultiplier;
         }
@@ -201,11 +196,12 @@ public class Dog : MonoBehaviour
         yield return new WaitForSeconds(action.ActionTime);
         action.TimeFinished = Time.time;
         action.Active = false;
+        action.OnChange(this, false);
     }
 
     private bool CanDoAction(DogAction action = null)
     {
-        if (action == Stun) return true;
+        if (action == _stun) return true;
         if (Rolling || Leaping || (action != _pose && Posing) || Stunned) return false;
         if (action == null) return true;
         return Time.time > action.TimeFinished + action.Cooldown;
@@ -219,14 +215,15 @@ public class Dog : MonoBehaviour
         float v1 = Vector2.Dot(other.Rigidbody.velocity, Rigidbody.velocity);
         float v2 = Rigidbody.velocity.magnitude;
         float relativeVelocity = v2 - v1;
-        float timeLeft = Roll.ActionTime - (Time.time - Roll.TimeStarted);
+        float timeLeft = _roll.ActionTime - (Time.time - _roll.TimeStarted);
 
         // If there's not enough time to pass the player, stop rolling
         if (Math.Abs(relativeVelocity) * timeLeft < other.PhysicsCollider.bounds.size.x + PhysicsCollider.bounds.size.x)
         {
             Rolling = false;
-            Roll.TimeFinished = Time.time;
-            StopCoroutine(ActionRoutine(Roll));
+            _roll.OnChange(this, false);
+            _roll.TimeFinished = Time.time;
+            StopCoroutine(ActionRoutine(_roll));
         }
     }
 
@@ -254,6 +251,8 @@ public class Dog : MonoBehaviour
 
 }
 
+public delegate void ChangeAction(Dog dog, bool value);
+
 public class DogAction
 {
     public float ActionTime { get; set; }
@@ -263,4 +262,5 @@ public class DogAction
     public float TimeFinished { get; set; } = float.MinValue;
     public bool Active { get; set; }
     public AudioClip Audio { get; set; }
+    public ChangeAction OnChange { get; set; }
 }

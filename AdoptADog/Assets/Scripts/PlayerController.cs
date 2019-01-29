@@ -35,11 +35,11 @@ public class PlayerController : MonoBehaviour
         
         if (Controller.GetSingleton().GetADown(playerNumber))
         {
-            _dog.DoAction(Dog.Roll);
+            _dog.Roll();
         }
         if (Controller.GetSingleton().GetBDown(playerNumber))
         {
-            _dog.DoAction(Dog.Leap);
+            _dog.Leap();
         }
         if (Controller.GetSingleton().GetYHeld(playerNumber))
         {

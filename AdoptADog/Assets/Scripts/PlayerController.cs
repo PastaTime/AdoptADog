@@ -3,25 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using XInputDotNetPure;
 
 [RequireComponent(typeof(Dog))]
 public class PlayerController : MonoBehaviour
 {
-    public int playerNumber = 1;
+    public PlayerIndex playerNumber = PlayerIndex.One;
     private Dog _dog;
 
     public bool CanMove { get; set; } = true;
+
+    private ControllerManager _controllerManager;
 
     private void Start()
     {
         _dog = GetComponent<Dog>();
         _dog.PlayerNumber = playerNumber;
+        _controllerManager = FindObjectOfType<ControllerManager>();
     }
 
     private Vector2 GetMovementDir()
     {
-        float moveHorizontal = Controller.GetSingleton().GetHorizontal(playerNumber);
-        float moveVertical = Controller.GetSingleton().GetVertical(playerNumber);
+        float moveHorizontal = _controllerManager.GetHorizontal(playerNumber);
+        float moveVertical = _controllerManager.GetVertical(playerNumber);
 
         return new Vector2(moveHorizontal, moveVertical).normalized;
     }
@@ -33,15 +37,15 @@ public class PlayerController : MonoBehaviour
             
         if (!CanMove) return;
         
-        if (Controller.GetSingleton().GetADown(playerNumber))
+        if (_controllerManager.GetADown(playerNumber))
         {
             _dog.DoAction(Dog.Roll);
         }
-        if (Controller.GetSingleton().GetBDown(playerNumber))
+        if (_controllerManager.GetBDown(playerNumber))
         {
             _dog.DoAction(Dog.Leap);
         }
-        if (Controller.GetSingleton().GetYHeld(playerNumber))
+        if (_controllerManager.GetYHeld(playerNumber))
         {
             _dog.Pose(true);
         }

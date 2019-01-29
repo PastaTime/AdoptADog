@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class GameStart : MonoBehaviour
 {
-
-    private AudioManager manager;
-
-    private TextMesh textMesh;
+    private AudioManager _manager;
+    private ControllerManager _controllerManager;
+    private TextMesh _textMesh;
+    
     // Start is called before the first frame update
     void Start()
     {
-        manager = FindObjectOfType<AudioManager>();
-        textMesh = GetComponentInChildren<TextMesh>();
-        Controller.GetSingleton().Enabled = false;
-        manager.PlayAudio(manager.gameStart);
+        _controllerManager = FindObjectOfType<ControllerManager>();
+        _manager = FindObjectOfType<AudioManager>();
+        _textMesh = GetComponentInChildren<TextMesh>();
+        _controllerManager.Enabled = false;
+        _manager.PlayAudio(_manager.gameStart);
         StartCoroutine(StartGame());
     }
 
@@ -27,7 +28,8 @@ public class GameStart : MonoBehaviour
         Display("1");
         yield return new WaitForSeconds(1.0f);
         Display("Pose!");
-        Controller.GetSingleton().Enabled = true;
+        
+        _controllerManager.Enabled = true;
         yield return new WaitForSeconds(1.0f);
     }
 
@@ -38,9 +40,9 @@ public class GameStart : MonoBehaviour
 
     private IEnumerator DisplayText(string text)
     {
-        textMesh.text = text;
+        _textMesh.text = text;
         yield return new WaitForSeconds(1f);
-        textMesh.text = "";
+        _textMesh.text = "";
     }
     
     

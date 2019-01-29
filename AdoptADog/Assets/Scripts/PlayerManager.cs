@@ -1,4 +1,5 @@
 using UnityEngine;
+using XInputDotNetPure;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -16,27 +17,24 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void SpawnPlayer(int playerNumber)
+    public void SpawnPlayer(PlayerIndex playerIndex)
     {
-        PlayerPrefs.SetInt("Player" + (playerNumber + 1), 1);
         GameObject player = Instantiate(playerPrefab);
-        player.name = "Player" + (playerNumber + 1);
+        player.name = "Player" + playerIndex;
         var playerController = player.GetComponent<PlayerController>();
-        playerController.playerNumber = playerNumber + 1;
+        playerController.playerNumber = playerIndex;
         var animator = player.GetComponent<Animator>();
-        animator.runtimeAnimatorController = animationControllers[playerNumber];
+        animator.runtimeAnimatorController = animationControllers[(int)playerIndex];
         player.transform.localPosition = Utils.RandomPoint(_playerBounds.position, _playerBounds.rect);
 
-        Debug.Log("Spawning Player: " + playerNumber);
+        Debug.Log("Spawning Player: " + playerIndex);
     }
 
-
-    public void DespawnPlayer(int playerNumber)
+    public void DespawnPlayer(PlayerIndex playerIndex)
     {
-        PlayerPrefs.SetInt("Player" + (playerNumber + 1), 0);
-        var player = GameObject.Find("Player" + (playerNumber + 1));
+        var player = GameObject.Find("Player" + playerIndex);
         Destroy(player);
-        GameState.ActivePlayers.Remove(playerNumber);
+        GameState.ActivePlayers.Remove(playerIndex);
     }
 
 }

@@ -2,27 +2,23 @@
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using XInputDotNetPure;
 
-public class PointManager
+public class PointManager : MonoBehaviour
 {
-    private static PointManager _pointManager = null;
-    private Dictionary<int, PlayerScoreBar> _registeredPlayers;
-    private Dictionary<int, float> _score;
-
     public float PushPoints = 10;
     public float PosePoints = 15;
     public float WinningPoints = 100;
+    
+    private static PointManager _pointManager = null;
+    private Dictionary<PlayerIndex, PlayerScoreBar> _registeredPlayers = new Dictionary<PlayerIndex, PlayerScoreBar>();
+    private Dictionary<PlayerIndex, float> _score = new Dictionary<PlayerIndex, float>();
+    private ControllerManager _controllerManager;
 
-    private PointManager() {
-        _registeredPlayers = new Dictionary<int, PlayerScoreBar>();
-        _score = new Dictionary<int, float>();
-    }
-
-    public static PointManager GetSingleton() {
-        if (_pointManager == null) {
-            _pointManager = new PointManager();
-        }
-        return _pointManager;
+    void Start()
+    {
+        _pointManager = FindObjectOfType<PointManager>();
+        _controllerManager = FindObjectOfType<ControllerManager>();
     }
 
     public void Reset()
@@ -31,13 +27,13 @@ public class PointManager
         _score.Clear();
     }
 
-    public void Register(int player, PlayerScoreBar score) {
+    public void Register(PlayerIndex player, PlayerScoreBar score) {
         Debug.Log("Registering Player: " + player + "Score: " + score.ToString());
         _registeredPlayers.Add(player, score);
         _score[player] = 0f;
     }
 
-    public void AddPushPoints(int player) {
+    public void AddPushPoints(PlayerIndex player) {
         
         if (_score[player] <= PushPoints) {
             _registeredPlayers[player].UpdatePoints(0f);
@@ -47,7 +43,7 @@ public class PointManager
         }
     }
 
-    public void AddPosePoints(int player, float dt) {
+    public void AddPosePoints(PlayerIndex player, float dt) {
         Debug.Log("Adding to: " + player);
         Debug.Log("Length Score: " + _score.Count);
         Debug.Log("Length Players: " + _registeredPlayers.Count);
@@ -60,10 +56,10 @@ public class PointManager
         }
     }
 
-    private void EndGame(int player)
+    private void EndGame(PlayerIndex player)
     {
         _registeredPlayers[player].PlayerWon();
-        Controller.GetSingleton().Enabled = false;
+        _controllerManager.Enabled = false;
         GameManager.Instance.FinishGame(player);
         Reset();
     }

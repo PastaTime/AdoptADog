@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using XInputDotNetPure;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,10 +11,11 @@ using UnityEngine;
 public class Dog : MonoBehaviour
 {
     public AudioManager manager;
+    private PointManager _pointManager;
     
     public float Speed { get; set; } = 7;
     private const float acceleration = 0.9f;
-    public int PlayerNumber { get; set; } = -1;
+    public PlayerIndex PlayerNumber { get; set; } = PlayerIndex.One;
 
     public bool Rolling
     {
@@ -112,7 +114,10 @@ public class Dog : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
         _spotlight = FindObjectOfType<SpotlightScript>();
+
+        _pointManager = FindObjectOfType<PointManager>();
         manager = FindObjectOfType<AudioManager>();
+        
 
         if (manager == null) return;
         Leap.Audio = manager.playerLeap;
@@ -185,14 +190,14 @@ public class Dog : MonoBehaviour
 
         if (_spotlight != null && _spotlight.InSpotlight(name))
         {
-            PointManager.GetSingleton().AddPosePoints(PlayerNumber, Time.deltaTime);
+            _pointManager.AddPosePoints(PlayerNumber, Time.deltaTime);
         }
     }
 
     public void PushSomeone()
     {
         if (PlayerNumber < 0 || !_spotlight.InSpotlight(name)) return;
-        PointManager.GetSingleton().AddPushPoints(PlayerNumber);
+        _pointManager.AddPushPoints(PlayerNumber);
     }
 
     private IEnumerator ActionRoutine(DogAction action)

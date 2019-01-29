@@ -5,21 +5,21 @@
         public GameObject playerPrefab;
         private Dog _winDog;
         public RuntimeAnimatorController[] animationControllers;
+        private ControllerManager _controllerManager;
 
         private void Start()
         {
-            Controller.GetSingleton().Enabled = true;
+            FindObjectOfType<ControllerManager>().Enabled = true;
             GameObject player = Instantiate(playerPrefab);
             player.name = "Player" + (GameState.WinningPlayer);
             var playerController = player.GetComponent<PlayerController>();
             playerController.playerNumber = GameState.WinningPlayer;
             var animator = player.GetComponent<Animator>();
-            animator.runtimeAnimatorController = animationControllers[GameState.WinningPlayer - 1];
+            animator.runtimeAnimatorController = animationControllers[(int) GameState.WinningPlayer];
             _winDog = player.GetComponent<Dog>();
             player.transform.localPosition = new Vector2(-2.37f, 1.13f);
             player.transform.localScale = new Vector2(0.7f, 0.7f);
         }
-
 
         private void Update()
         {

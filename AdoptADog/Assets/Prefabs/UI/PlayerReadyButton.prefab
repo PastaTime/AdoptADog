@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 13319637716785216}
   - component: {fileID: 570042623689387406}
   - component: {fileID: 113300953684097463}
+  - component: {fileID: 3075078975580377666}
   m_Layer: 5
   m_Name: PlayerReadyButton
   m_TagString: Untagged
@@ -87,11 +88,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32352cd9097906c488b3c2d9b68878e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  buttonKey: 97
+  _audioManager: {fileID: 0}
   buttonSelected: 0
-  pulseTime: 0.25
+  dog: {fileID: 0}
+  playerNumber: 0
+--- !u!114 &3075078975580377666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687822228759110308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b56c19d1c7843b787e029b880eb93cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   buttonUpImage: {fileID: 21300000, guid: 84ed1154a153e854fb1ed4b3d277bf89, type: 3}
   buttonDownImage: {fileID: 21300000, guid: 85811f1e29742fd4c9832637346622d6, type: 3}
   buttonSelectedImage: {fileID: 21300000, guid: 7fe9d0c002ea31c4ab0feb60b2664edb,
     type: 3}
+  pulseTime: 1

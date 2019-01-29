@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _audioManager = GetComponent<AudioManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
         Instance = this;
     }
 

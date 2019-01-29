@@ -3,7 +3,7 @@
     public class EndScene : MonoBehaviour
     {
         public GameObject playerPrefab;
-        public Dog _winDog;
+        private Dog _winDog;
         public RuntimeAnimatorController[] animationControllers;
 
         private void Start()

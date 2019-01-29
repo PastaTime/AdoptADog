@@ -98,7 +98,7 @@ public class Dog : MonoBehaviour
     private static readonly int RollingAnimationId = Animator.StringToHash("Rolling");
     private static readonly int LeapingAnimationId = Animator.StringToHash("Leaping");
     private static readonly int PosingAnimationId = Animator.StringToHash("Posing");
-    private static readonly int VelocityAnimationId = Animator.StringToHash("Velocity");
+    private static readonly int WalkingAnimationId = Animator.StringToHash("Walking");
     private static readonly int StunnedAnimationId = Animator.StringToHash("Stunned");
 
     private bool _doPose = false;
@@ -114,6 +114,7 @@ public class Dog : MonoBehaviour
         _spotlight = FindObjectOfType<SpotlightScript>();
         manager = FindObjectOfType<AudioManager>();
 
+        if (manager == null) return;
         Leap.Audio = manager.playerLeap;
         _pose.Audio = manager.playerPose;
         Roll.Audio = manager.playerRoll;
@@ -142,7 +143,7 @@ public class Dog : MonoBehaviour
             _spriteRenderer.flipX = false;
         }
 
-        _animator.SetFloat(VelocityAnimationId, Rigidbody.velocity.magnitude);
+        _animator.SetBool(WalkingAnimationId, Rigidbody.velocity.magnitude > 0.1);
         Posing = _doPose;
         _doPose = false;
     }

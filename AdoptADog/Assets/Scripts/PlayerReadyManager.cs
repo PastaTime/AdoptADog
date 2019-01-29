@@ -29,15 +29,6 @@ namespace DefaultNamespace
             if (readyPlayers <= 1) return;
 
             startButton.SetActive(true);
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (Controller.GetSingleton().GetXDown(i))
-                {
-                    SceneManager.LoadScene(Constants.MapSceneName);
-                }
-            }
-
         }
     }
 }

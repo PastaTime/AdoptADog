@@ -27,6 +27,7 @@ public class PulseButton : MonoBehaviour
     private void Update()
     {
         if (!Selected) DoPulse();
+        else _button.sprite = buttonSelectedImage;
     }
 
     private void DoPulse()

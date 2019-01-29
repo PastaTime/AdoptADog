@@ -89,10 +89,10 @@ TextureImporter:
       name: XButton_0
       rect:
         serializedVersion: 2
-        x: 32
-        y: 1056
-        width: 960
-        height: 992
+        x: 0
+        y: 1024
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -100,7 +100,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee3ccf63edbf2e247bde00f8fe4244d5
+      spriteID: b1a0869aaa5007e4cacc299b120ddaff
       vertices: []
       indices: 
       edges: []
@@ -109,10 +109,10 @@ TextureImporter:
       name: XButton_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 0
-        width: 960
-        height: 960
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -120,7 +120,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56a752045aa989d4aa38045616a238fa
+      spriteID: 1c69647c63d16b84d86be806194efb28
       vertices: []
       indices: 
       edges: []
